@@ -1,0 +1,32 @@
+# Optional: run DEXAZ via Docker instead of native (Mode B in README).
+# Publishes only to 127.0.0.1 on the host — still local-first.
+#
+# IMPORTANT: your target PostgreSQL does NOT need to run in Docker. If it's
+# installed natively on Windows, set DBX_BOOTSTRAP_HOST / connection host in
+# the UI to "host.docker.internal" instead of "localhost" so the backend
+# container can reach it.
+
+services:
+  backend:
+    build: ./backend
+    env_file: .env
+    environment:
+      - DBX_INTERNAL_DB_URL=sqlite:////data/dbxplorer_internal.db
+    volumes:
+      - dbx_internal_data:/data
+    ports:
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  dbx_internal_data:

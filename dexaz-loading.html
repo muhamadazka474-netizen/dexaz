@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menyiapkan DEXAZ…</title>
+<style>
+  :root{
+    --void:#070a0a; --panel:#0d1212; --line:#232d2c;
+    --cyan:#4fd8ff; --blue:#5b8dff; --text:#e7ecea; --muted:#8e9a97;
+  }
+  *{box-sizing:border-box}
+  html,body{
+    margin:0; height:100%; background:var(--void); color:var(--text);
+    font-family:-apple-system,Segoe UI,Inter,Arial,sans-serif;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card{
+    width:min(440px, 90vw); text-align:center; padding:44px 34px;
+    background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    box-shadow:0 30px 80px #000a;
+  }
+  .logo{
+    width:56px; height:56px; margin:0 auto 22px; border-radius:14px;
+    background:linear-gradient(135deg, var(--cyan), var(--blue));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:20px; color:#03080a;
+    box-shadow:0 0 30px #4fd8ff55;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ transform:scale(1); box-shadow:0 0 30px #4fd8ff55; }
+    50%{ transform:scale(1.06); box-shadow:0 0 44px #4fd8ff99; }
+  }
+  h1{ font-size:19px; letter-spacing:.02em; margin:0 0 6px; }
+  p.sub{ color:var(--muted); font-size:13px; margin:0 0 26px; }
+  .spinner{
+    width:34px; height:34px; margin:0 auto 20px;
+    border:3px solid #1c2524; border-top-color:var(--cyan);
+    border-radius:50%; animation:spin .9s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .status{
+    font-size:13px; color:var(--text); min-height:18px;
+    font-variant-numeric:tabular-nums;
+  }
+  .status .dots::after{
+    content:''; animation:dots 1.4s steps(4,end) infinite;
+  }
+  @keyframes dots{
+    0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} 100%{content:''}
+  }
+  .bar-track{
+    margin-top:20px; height:4px; border-radius:4px; background:#151c1b; overflow:hidden;
+  }
+  .bar-fill{
+    height:100%; width:30%; border-radius:4px;
+    background:linear-gradient(90deg, var(--cyan), var(--blue));
+    animation:slide 1.6s ease-in-out infinite;
+  }
+  @keyframes slide{
+    0%{ transform:translateX(-100%); }
+    100%{ transform:translateX(330%); }
+  }
+  .hint{ margin-top:22px; font-size:11.5px; color:#5f6967; line-height:1.6; }
+  .hint b{ color:#8b9592; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">DX</div>
+    <h1>Menyiapkan DEXAZ</h1>
+    <p class="sub">Database Explorer Azka</p>
+    <div class="spinner"></div>
+    <div class="status" id="status">Menyalakan backend &amp; frontend<span class="dots"></span></div>
+    <div class="bar-track"><div class="bar-fill"></div></div>
+    <div class="hint" id="hint">
+      Halaman ini akan otomatis pindah ke DEXAZ begitu siap.<br>
+      Percobaan pertama biasanya lebih lama karena <b>npm install</b>.
+    </div>
+  </div>
+
+<script>
+  var target = "http://127.0.0.1:__DEXAZ_FRONTEND_PORT__/login";
+  // PENTING: sebelumnya di sini cuma ping frontend (port 3000). Itu bug -
+  // Next.js dev server bisa mulai menjawab request jauh sebelum backend
+  // (port 8000) selesai `pip install` + siap menerima koneksi, sehingga
+  // halaman ini pindah ke /login lebih awal padahal backend belum hidup -
+  // hasilnya begitu login/buka /connections, semua panggilan API ke
+  // backend gagal dengan "tidak bisa menghubungi server". Sekarang KEDUA
+  // server (frontend DAN backend) harus sama-sama terkonfirmasi siap
+  // sebelum redirect dilakukan.
+  //
+  // Placeholder __DEXAZ_FRONTEND_PORT__/__DEXAZ_BACKEND_PORT__ diganti oleh
+  // run-dexaz.ps1 (listener loading page) dengan port FINAL yang benar-benar
+  // dipakai run ini - bisa beda dari 3000/8000 kalau port default itu
+  // dipakai aplikasi lain yang tidak terkait DEXAZ (mis. aplikasi lain yang
+  // kebetulan juga pakai port 3000) dan otomatis digeser ke port kosong
+  // berikutnya.
+  // PENTING (fix lanjutan): sebelumnya di-ping ke "/" pakai mode "no-cors",
+  // dan fetch dianggap "frontend siap" begitu Promise-nya resolve - TANPA
+  // pernah cek isi/status responsnya (opaque response, tidak bisa dibaca
+  // sama sekali di mode no-cors). Ini bug: kalau ada aplikasi LAIN yang
+  // sama sekali tidak terkait DEXAZ kebetulan sedang mendengarkan di port
+  // yang sama (race - Resolve-PortOrShift di run-dexaz.ps1 cuma mengecek
+  // port kosong SEBELUM "npm run dev" dijalankan, aplikasi lain masih bisa
+  // keburu merebut port itu di jeda beberapa detik sebelum Next.js benar-
+  // benar berhasil bind), maka respons APAPUN dari aplikasi lain itu -
+  // termasuk 404 - langsung dianggap "frontend DEXAZ sudah siap", lalu
+  // halaman ini redirect ke /login yang sebenarnya dijawab oleh aplikasi
+  // lain tadi, bukan oleh DEXAZ. Ciri khasnya persis: teks "Cannot GET
+  // /login" (bukan halaman 404 Next.js) dan Content-Security-Policy
+  // "default-src 'none'" yang memblokir favicon - keduanya TIDAK ada di
+  // kode DEXAZ manapun.
+  //
+  // Sekarang di-ping ke endpoint /api/dexaz-ping (lihat
+  // frontend/src/app/api/dexaz-ping/route.ts) pakai fetch BIASA (bukan
+  // no-cors) supaya isi responsnya bisa benar-benar dibaca, dan baru
+  // dianggap siap kalau JSON penandanya cocok ({ app: "dexaz-frontend" }).
+  // Aplikasi lain yang kebetulan nyangkut di port yang sama tidak akan
+  // pernah punya endpoint ini / tidak akan pernah lolos pengecekan ini.
+  var frontendPingUrl = "http://127.0.0.1:__DEXAZ_FRONTEND_PORT__/api/dexaz-ping";
+  var backendHealthUrl = "http://127.0.0.1:__DEXAZ_BACKEND_PORT__/api/health";
+  var statusEl = document.getElementById("status");
+  var hintEl = document.getElementById("hint");
+  var elapsed = 0;
+  var intervalMs = 1500;
+  // Diperpanjang dari 180s -> 420s (7 menit): percobaan pertama kali bisa
+  // butuh waktu lumayan lama untuk `pip install`/`npm install`, apalagi
+  // kalau folder project ada di OneDrive yang suka mengunci/scan file saat
+  // sinkronisasi. Timeout lama sebelumnya (180s) bisa habis duluan sebelum
+  // instalasi selesai, memaksa redirect padahal backend belum siap.
+  var maxWaitSeconds = 420;
+  var redirected = false;
+  var frontendReady = false;
+  var backendReady = false;
+
+  var messages = [
+    "Menyalakan backend & frontend",
+    "Menyiapkan dependensi",
+    "Menunggu server merespons",
+    "Hampir siap"
+  ];
+
+  function setStatus(text){
+    statusEl.innerHTML = text + '<span class="dots"></span>';
+  }
+
+  function goToApp(){
+    if (redirected) return;
+    redirected = true;
+    setStatus("Siap! Membuka DEXAZ");
+    window.location.replace(target);
+  }
+
+  function maybeGoToApp(){
+    if (frontendReady && backendReady) {
+      goToApp();
+    }
+  }
+
+  function checkReady(){
+    // Frontend: fetch BIASA (bukan no-cors) ke /api/dexaz-ping, supaya isi
+    // responsnya bisa dicek (lihat komentar panjang di atas kenapa ini
+    // penting - no-cors tidak bisa membedakan DEXAZ dari aplikasi lain).
+    // Route itu sengaja mengizinkan CORS dari origin manapun
+    // (Access-Control-Allow-Origin: *) khusus untuk endpoint ini saja,
+    // jadi tetap jalan walau halaman loading ini disajikan dari origin
+    // berbeda (http://localhost:4321).
+    if (!frontendReady) {
+      fetch(frontendPingUrl, { cache: "no-store" })
+        .then(function (res) {
+          if (!res.ok) { throw new Error("status " + res.status); }
+          return res.json();
+        })
+        .then(function (data) {
+          // Cocokkan penanda unik - kalau yang menjawab BUKAN frontend
+          // DEXAZ (mis. aplikasi lain kebetulan nyangkut di port yang
+          // sama), field ini tidak akan pernah ada/cocok, jadi tetap
+          // dianggap belum siap dan terus mencoba lagi.
+          if (data && data.app === "dexaz-frontend") {
+            frontendReady = true;
+            maybeGoToApp();
+          }
+        })
+        .catch(function () { /* frontend belum siap (atau bukan DEXAZ yang menjawab), coba lagi */ });
+    }
+
+    // Backend punya endpoint JSON asli (/api/health) dan sudah mengizinkan
+    // CORS dari origin frontend (lihat dbx_frontend_origin di .env), tapi
+    // origin halaman loading ini (file:// atau http://localhost:4321) bisa
+    // saja tidak diizinkan CORS-nya - jadi tetap pakai no-cors di sini juga.
+    // Yang penting koneksinya berhasil (server sudah listen), bukan isi
+    // responsnya.
+    if (!backendReady) {
+      fetch(backendHealthUrl, { mode: "no-cors", cache: "no-store" })
+        .then(function () { backendReady = true; maybeGoToApp(); })
+        .catch(function () { /* backend belum siap, coba lagi */ });
+    }
+  }
+
+  var msgIndex = 0;
+  setInterval(function () {
+    elapsed += intervalMs / 1000;
+
+    if (elapsed > 12 && msgIndex < 1) { msgIndex = 1; setStatus(messages[1]); }
+    if (elapsed > 30 && msgIndex < 2) { msgIndex = 2; setStatus(messages[2]); }
+    if (elapsed > 60 && msgIndex < 3) { msgIndex = 3; setStatus(messages[3]); }
+
+    if (elapsed > 45) {
+      var waitingFor = [];
+      if (!frontendReady) waitingFor.push("frontend");
+      if (!backendReady) waitingFor.push("backend");
+      var waitingText = waitingFor.length ? (" Masih menunggu: <b>" + waitingFor.join(", ") + "</b>.") : "";
+      hintEl.innerHTML = 'Masih menyiapkan…' + waitingText + ' Kalau lebih dari beberapa menit, ' +
+        'cek file di folder <b>logs/</b> (backend.log/backend-error.log, frontend.log/frontend-error.log) untuk detail error. ' +
+        'Kemungkinan lain: port 3000/8000 sedang dipakai APLIKASI LAIN yang tidak terkait DEXAZ - ' +
+        'cek lewat Command Prompt: <b>netstat -ano | findstr :3000</b>, catat angka PID di kolom paling kanan, ' +
+        'lalu <b>tasklist /FI "PID eq &lt;PID&gt;"</b> untuk tahu nama programnya, tutup program itu, baru jalankan run-dexaz.bat lagi.';
+    }
+
+    if (elapsed >= maxWaitSeconds && !redirected) {
+      redirected = true;
+      setStatus("Belum merespons, tetap membuka DEXAZ");
+      window.location.replace(target);
+      return;
+    }
+
+    checkReady();
+  }, intervalMs);
+
+  checkReady();
+</script>
+</body>
+</html>

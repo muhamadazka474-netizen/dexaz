@@ -1,0 +1,510 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DEXAZ — "Dark Future GlassGlow" design tokens
+   No external font/network calls: local-first by design, matches
+   the app's own no-internet-required principle.
+   ============================================================ */
+
+:root {
+  --dbx-void: #05070d;
+  --dbx-void-2: #080b14;
+  --dbx-panel: #0d1220;
+  --dbx-panel-2: #111830;
+  --dbx-border: rgba(148, 178, 255, 0.12);
+  --dbx-border-strong: rgba(148, 178, 255, 0.22);
+
+  --dbx-cyan: #2dd4f0;
+  --dbx-blue: #4f8cff;
+  --dbx-violet: #9b6bff;
+
+  --dbx-text: #e6ecf7;
+  --dbx-text-muted: #8592ac;
+  --dbx-text-faint: #56617a;
+
+  --dbx-success: #34d399;
+  --dbx-warning: #fbbf24;
+  --dbx-danger: #f76a6a;
+
+  --dbx-glass-1: rgba(17, 24, 48, 0.66);
+  --dbx-glass-2: rgba(13, 18, 32, 0.55);
+  --dbx-glass-strong-1: rgba(17, 24, 48, 0.9);
+  --dbx-glass-strong-2: rgba(13, 18, 32, 0.85);
+  --dbx-tooltip-bg: #111830;
+  --dbx-tooltip-border: rgba(148, 178, 255, 0.35);
+
+  --dbx-font-display: "Segoe UI Semibold", "Avenir Next", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --dbx-font-body: "Segoe UI", "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --dbx-font-mono: ui-monospace, "Cascadia Code", "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+/* ------------------------------------------------------------
+   Light theme — activated by <html data-theme="light">, set from
+   ThemeProvider (frontend/src/lib/theme-context.tsx). Every token
+   below overrides the dark default above; components never
+   reference raw hex, only these variables (via Tailwind's
+   @theme inline mapping further down), so this block alone is
+   enough to re-skin the whole app.
+   ------------------------------------------------------------ */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --dbx-void: #eef1f8;
+  --dbx-void-2: #ffffff;
+  --dbx-panel: #ffffff;
+  --dbx-panel-2: #f4f6fb;
+  --dbx-border: rgba(30, 41, 59, 0.10);
+  --dbx-border-strong: rgba(30, 41, 59, 0.20);
+
+  --dbx-cyan: #0a8aa3;
+  --dbx-blue: #3457d5;
+  --dbx-violet: #7c3aed;
+
+  --dbx-text: #101828;
+  --dbx-text-muted: #47536b;
+  --dbx-text-faint: #7c8aa3;
+
+  --dbx-success: #0f9d6a;
+  --dbx-warning: #b45309;
+  --dbx-danger: #dc2626;
+
+  --dbx-glass-1: rgba(255, 255, 255, 0.80);
+  --dbx-glass-2: rgba(238, 241, 248, 0.68);
+  --dbx-glass-strong-1: rgba(255, 255, 255, 0.94);
+  --dbx-glass-strong-2: rgba(238, 241, 248, 0.90);
+  --dbx-tooltip-bg: #ffffff;
+  --dbx-tooltip-border: rgba(30, 41, 59, 0.18);
+}
+
+/* ------------------------------------------------------------
+   Additional themes — same variable set as above, selected via
+   <html data-theme="...">. See frontend/src/lib/themes.ts for the
+   registry that powers the picker in the navigation; every id
+   listed there must have a block here.
+   ------------------------------------------------------------ */
+:root[data-theme="midnight-violet"] {
+  --dbx-void: #0b0a17;
+  --dbx-void-2: #0f0e1e;
+  --dbx-panel: #15132a;
+  --dbx-panel-2: #1b1836;
+  --dbx-border: rgba(167, 139, 250, 0.14);
+  --dbx-border-strong: rgba(167, 139, 250, 0.26);
+  --dbx-cyan: #a78bfa;
+  --dbx-blue: #818cf8;
+  --dbx-violet: #f472b6;
+  --dbx-text: #ece9fb;
+  --dbx-text-muted: #9a91c2;
+  --dbx-text-faint: #675f92;
+  --dbx-success: #34d399;
+  --dbx-warning: #fbbf24;
+  --dbx-danger: #fb7185;
+  --dbx-glass-1: rgba(27, 24, 54, 0.66);
+  --dbx-glass-2: rgba(21, 19, 42, 0.55);
+  --dbx-glass-strong-1: rgba(27, 24, 54, 0.9);
+  --dbx-glass-strong-2: rgba(21, 19, 42, 0.85);
+  --dbx-tooltip-bg: #1b1836;
+  --dbx-tooltip-border: rgba(167, 139, 250, 0.35);
+}
+
+:root[data-theme="emerald-terminal"] {
+  --dbx-void: #050807;
+  --dbx-void-2: #070c0a;
+  --dbx-panel: #0b1512;
+  --dbx-panel-2: #0f1c17;
+  --dbx-border: rgba(52, 224, 161, 0.14);
+  --dbx-border-strong: rgba(52, 224, 161, 0.26);
+  --dbx-cyan: #34e0a1;
+  --dbx-blue: #22c55e;
+  --dbx-violet: #a3e635;
+  --dbx-text: #e3f7ec;
+  --dbx-text-muted: #7fa895;
+  --dbx-text-faint: #4d6b5d;
+  --dbx-success: #34e0a1;
+  --dbx-warning: #eab308;
+  --dbx-danger: #f87171;
+  --dbx-glass-1: rgba(15, 28, 23, 0.66);
+  --dbx-glass-2: rgba(11, 21, 18, 0.55);
+  --dbx-glass-strong-1: rgba(15, 28, 23, 0.9);
+  --dbx-glass-strong-2: rgba(11, 21, 18, 0.85);
+  --dbx-tooltip-bg: #0f1c17;
+  --dbx-tooltip-border: rgba(52, 224, 161, 0.35);
+}
+
+:root[data-theme="solar-amber"] {
+  --dbx-void: #0d0a06;
+  --dbx-void-2: #120d08;
+  --dbx-panel: #1a130b;
+  --dbx-panel-2: #21190e;
+  --dbx-border: rgba(245, 165, 36, 0.14);
+  --dbx-border-strong: rgba(245, 165, 36, 0.26);
+  --dbx-cyan: #f5a524;
+  --dbx-blue: #fb923c;
+  --dbx-violet: #fb7185;
+  --dbx-text: #f8efe2;
+  --dbx-text-muted: #b8a186;
+  --dbx-text-faint: #7c6c58;
+  --dbx-success: #84cc16;
+  --dbx-warning: #f5a524;
+  --dbx-danger: #f0384a;
+  --dbx-glass-1: rgba(33, 25, 14, 0.66);
+  --dbx-glass-2: rgba(26, 19, 11, 0.55);
+  --dbx-glass-strong-1: rgba(33, 25, 14, 0.9);
+  --dbx-glass-strong-2: rgba(26, 19, 11, 0.85);
+  --dbx-tooltip-bg: #21190e;
+  --dbx-tooltip-border: rgba(245, 165, 36, 0.35);
+}
+
+:root[data-theme="crimson-noir"] {
+  --dbx-void: #0a0607;
+  --dbx-void-2: #0f090a;
+  --dbx-panel: #180f10;
+  --dbx-panel-2: #201315;
+  --dbx-border: rgba(240, 56, 74, 0.14);
+  --dbx-border-strong: rgba(240, 56, 74, 0.26);
+  --dbx-cyan: #f0384a;
+  --dbx-blue: #fb7185;
+  --dbx-violet: #fb923c;
+  --dbx-text: #f7e8ea;
+  --dbx-text-muted: #b28890;
+  --dbx-text-faint: #78565c;
+  --dbx-success: #34d399;
+  --dbx-warning: #fbbf24;
+  --dbx-danger: #f0384a;
+  --dbx-glass-1: rgba(32, 19, 21, 0.66);
+  --dbx-glass-2: rgba(24, 15, 16, 0.55);
+  --dbx-glass-strong-1: rgba(32, 19, 21, 0.9);
+  --dbx-glass-strong-2: rgba(24, 15, 16, 0.85);
+  --dbx-tooltip-bg: #201315;
+  --dbx-tooltip-border: rgba(240, 56, 74, 0.35);
+}
+
+:root[data-theme="ocean-deep"] {
+  --dbx-void: #040c14;
+  --dbx-void-2: #06111c;
+  --dbx-panel: #0a1a29;
+  --dbx-panel-2: #0e2233;
+  --dbx-border: rgba(34, 211, 238, 0.14);
+  --dbx-border-strong: rgba(34, 211, 238, 0.26);
+  --dbx-cyan: #22d3ee;
+  --dbx-blue: #38bdf8;
+  --dbx-violet: #60a5fa;
+  --dbx-text: #e3f4fb;
+  --dbx-text-muted: #7fa7bc;
+  --dbx-text-faint: #4d6c7d;
+  --dbx-success: #2dd4bf;
+  --dbx-warning: #fbbf24;
+  --dbx-danger: #f87171;
+  --dbx-glass-1: rgba(14, 34, 51, 0.66);
+  --dbx-glass-2: rgba(10, 26, 41, 0.55);
+  --dbx-glass-strong-1: rgba(14, 34, 51, 0.9);
+  --dbx-glass-strong-2: rgba(10, 26, 41, 0.85);
+  --dbx-tooltip-bg: #0e2233;
+  --dbx-tooltip-border: rgba(34, 211, 238, 0.35);
+}
+
+:root[data-theme="nord-frost"] {
+  --dbx-void: #0f1620;
+  --dbx-void-2: #131c28;
+  --dbx-panel: #1b2635;
+  --dbx-panel-2: #212e40;
+  --dbx-border: rgba(136, 192, 208, 0.14);
+  --dbx-border-strong: rgba(136, 192, 208, 0.26);
+  --dbx-cyan: #88c0d0;
+  --dbx-blue: #81a1c1;
+  --dbx-violet: #b48ead;
+  --dbx-text: #e5eaf0;
+  --dbx-text-muted: #94a3b8;
+  --dbx-text-faint: #5f6f83;
+  --dbx-success: #a3be8c;
+  --dbx-warning: #ebcb8b;
+  --dbx-danger: #bf616a;
+  --dbx-glass-1: rgba(33, 46, 64, 0.66);
+  --dbx-glass-2: rgba(27, 38, 53, 0.55);
+  --dbx-glass-strong-1: rgba(33, 46, 64, 0.9);
+  --dbx-glass-strong-2: rgba(27, 38, 53, 0.85);
+  --dbx-tooltip-bg: #212e40;
+  --dbx-tooltip-border: rgba(136, 192, 208, 0.35);
+}
+
+:root[data-theme="cyber-pink"] {
+  --dbx-void: #0a0510;
+  --dbx-void-2: #0e0816;
+  --dbx-panel: #170f26;
+  --dbx-panel-2: #1e1430;
+  --dbx-border: rgba(255, 94, 196, 0.16);
+  --dbx-border-strong: rgba(255, 94, 196, 0.3);
+  --dbx-cyan: #ff5ec4;
+  --dbx-blue: #7ef9ff;
+  --dbx-violet: #b490ff;
+  --dbx-text: #f5e9f7;
+  --dbx-text-muted: #a98fc4;
+  --dbx-text-faint: #6c5885;
+  --dbx-success: #34e0a1;
+  --dbx-warning: #fbbf24;
+  --dbx-danger: #ff5e7a;
+  --dbx-glass-1: rgba(30, 20, 48, 0.66);
+  --dbx-glass-2: rgba(23, 15, 38, 0.55);
+  --dbx-glass-strong-1: rgba(30, 20, 48, 0.9);
+  --dbx-glass-strong-2: rgba(23, 15, 38, 0.85);
+  --dbx-tooltip-bg: #1e1430;
+  --dbx-tooltip-border: rgba(255, 94, 196, 0.4);
+}
+
+:root[data-theme="rose-quartz"] {
+  color-scheme: light;
+  --dbx-void: #fdf2f6;
+  --dbx-void-2: #ffffff;
+  --dbx-panel: #ffffff;
+  --dbx-panel-2: #fbeef3;
+  --dbx-border: rgba(159, 45, 90, 0.10);
+  --dbx-border-strong: rgba(159, 45, 90, 0.20);
+  --dbx-cyan: #e0507a;
+  --dbx-blue: #c2456f;
+  --dbx-violet: #a855f7;
+  --dbx-text: #3a1526;
+  --dbx-text-muted: #7a4a5f;
+  --dbx-text-faint: #ab7f92;
+  --dbx-success: #0f9d6a;
+  --dbx-warning: #b45309;
+  --dbx-danger: #dc2626;
+  --dbx-glass-1: rgba(255, 255, 255, 0.80);
+  --dbx-glass-2: rgba(253, 242, 246, 0.68);
+  --dbx-glass-strong-1: rgba(255, 255, 255, 0.94);
+  --dbx-glass-strong-2: rgba(253, 242, 246, 0.90);
+  --dbx-tooltip-bg: #ffffff;
+  --dbx-tooltip-border: rgba(159, 45, 90, 0.18);
+}
+
+:root[data-theme="sandstone"] {
+  color-scheme: light;
+  --dbx-void: #faf5ec;
+  --dbx-void-2: #ffffff;
+  --dbx-panel: #ffffff;
+  --dbx-panel-2: #f5ecdc;
+  --dbx-border: rgba(120, 72, 24, 0.12);
+  --dbx-border-strong: rgba(120, 72, 24, 0.22);
+  --dbx-cyan: #c2691d;
+  --dbx-blue: #b45309;
+  --dbx-violet: #9a5b2e;
+  --dbx-text: #2e2013;
+  --dbx-text-muted: #6b5a44;
+  --dbx-text-faint: #9c8b73;
+  --dbx-success: #4d7c0f;
+  --dbx-warning: #b45309;
+  --dbx-danger: #b91c1c;
+  --dbx-glass-1: rgba(255, 255, 255, 0.80);
+  --dbx-glass-2: rgba(250, 245, 236, 0.68);
+  --dbx-glass-strong-1: rgba(255, 255, 255, 0.94);
+  --dbx-glass-strong-2: rgba(250, 245, 236, 0.90);
+  --dbx-tooltip-bg: #ffffff;
+  --dbx-tooltip-border: rgba(120, 72, 24, 0.2);
+}
+
+:root[data-theme="mint-fresh"] {
+  color-scheme: light;
+  --dbx-void: #f2faf6;
+  --dbx-void-2: #ffffff;
+  --dbx-panel: #ffffff;
+  --dbx-panel-2: #e9f7f0;
+  --dbx-border: rgba(15, 118, 88, 0.10);
+  --dbx-border-strong: rgba(15, 118, 88, 0.20);
+  --dbx-cyan: #0f9d6a;
+  --dbx-blue: #0ea5b7;
+  --dbx-violet: #14b8a6;
+  --dbx-text: #0e2a20;
+  --dbx-text-muted: #4c6d5f;
+  --dbx-text-faint: #85a396;
+  --dbx-success: #0f9d6a;
+  --dbx-warning: #b45309;
+  --dbx-danger: #dc2626;
+  --dbx-glass-1: rgba(255, 255, 255, 0.80);
+  --dbx-glass-2: rgba(242, 250, 246, 0.68);
+  --dbx-glass-strong-1: rgba(255, 255, 255, 0.94);
+  --dbx-glass-strong-2: rgba(242, 250, 246, 0.90);
+  --dbx-tooltip-bg: #ffffff;
+  --dbx-tooltip-border: rgba(15, 118, 88, 0.18);
+}
+
+:root[data-theme="slate-pro"] {
+  color-scheme: light;
+  --dbx-void: #f4f6f9;
+  --dbx-void-2: #ffffff;
+  --dbx-panel: #ffffff;
+  --dbx-panel-2: #eaeef4;
+  --dbx-border: rgba(30, 41, 59, 0.10);
+  --dbx-border-strong: rgba(30, 41, 59, 0.20);
+  --dbx-cyan: #3457d5;
+  --dbx-blue: #475569;
+  --dbx-violet: #6366f1;
+  --dbx-text: #0f172a;
+  --dbx-text-muted: #475569;
+  --dbx-text-faint: #94a3b8;
+  --dbx-success: #0f9d6a;
+  --dbx-warning: #b45309;
+  --dbx-danger: #dc2626;
+  --dbx-glass-1: rgba(255, 255, 255, 0.80);
+  --dbx-glass-2: rgba(244, 246, 249, 0.68);
+  --dbx-glass-strong-1: rgba(255, 255, 255, 0.94);
+  --dbx-glass-strong-2: rgba(244, 246, 249, 0.90);
+  --dbx-tooltip-bg: #ffffff;
+  --dbx-tooltip-border: rgba(30, 41, 59, 0.18);
+}
+
+@theme inline {
+  --color-void: var(--dbx-void);
+  --color-void-2: var(--dbx-void-2);
+  --color-panel: var(--dbx-panel);
+  --color-panel-2: var(--dbx-panel-2);
+  --color-border-glass: var(--dbx-border);
+  --color-border-glass-strong: var(--dbx-border-strong);
+
+  --color-cyan: var(--dbx-cyan);
+  --color-blue: var(--dbx-blue);
+  --color-violet: var(--dbx-violet);
+
+  --color-text: var(--dbx-text);
+  --color-text-muted: var(--dbx-text-muted);
+  --color-text-faint: var(--dbx-text-faint);
+
+  --color-success: var(--dbx-success);
+  --color-warning: var(--dbx-warning);
+  --color-danger: var(--dbx-danger);
+
+  --font-display: var(--dbx-font-display);
+  --font-body: var(--dbx-font-body);
+  --font-mono: var(--dbx-font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  /* Tell the browser which theme is active. Without this, Chrome/Edge's
+     "auto dark mode for websites" heuristic can kick in on Windows and
+     silently re-color form controls (inputs/selects), which is what made
+     text typed into Query Builder's filter value box invisible — the
+     browser was overriding our explicit text color. The actual value is
+     set dynamically (dark by default, light when data-theme="light" — see
+     the block above and the bootstrap script in layout.tsx). */
+  color-scheme: dark;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+body {
+  /* The two radial accents tint themselves from the active theme's own
+     blue/violet tokens (via color-mix) instead of a fixed hardcoded hue,
+     so every theme in the picker gets a background wash that actually
+     matches its palette instead of a leftover blue/violet glow. */
+  background:
+    radial-gradient(1200px 600px at 15% -10%, color-mix(in srgb, var(--dbx-blue) 10%, transparent), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, color-mix(in srgb, var(--dbx-violet) 8%, transparent), transparent 55%),
+    var(--dbx-void);
+  color: var(--dbx-text);
+  font-family: var(--dbx-font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* These are wrapped in @layer components so that Tailwind's own utility
+   classes (w-28, flex-1, shrink-0, etc.) always win the cascade against
+   these base styles, regardless of which order the classes were written
+   in the JSX or which order the rules happen to appear in this file.
+   Without this, .dbx-input's `width: 100%` below was tying in specificity
+   with utilities like `w-28` and winning purely on source order — e.g. in
+   Query Builder's filter row, the operator <select> (dbx-input + w-28)
+   was silently stretching to fill the whole row instead of staying 7rem
+   wide, squeezing the adjacent value <input> down to the browser's tiny
+   intrinsic minimum (~26-36px) so typed text was clipped/invisible. */
+@layer components {
+  .dbx-glass {
+    background: linear-gradient(180deg, var(--dbx-glass-1), var(--dbx-glass-2));
+    border: 1px solid var(--dbx-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .dbx-glass-strong {
+    background: linear-gradient(180deg, var(--dbx-glass-strong-1), var(--dbx-glass-strong-2));
+    border: 1px solid var(--dbx-border-strong);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  /*
+   * The bundled `pptx-preview` library injects its own floating slide
+   * navigation UI directly into the DOM (see its `renderNextButton` /
+   * `renderPreButton` methods). Due to a bug in that library both the
+   * next AND previous buttons are given the *same* class name
+   * (`pptx-preview-wrapper-next`), so they can't be targeted separately.
+   * DocumentViewerModal renders its own navigation controls, so we hide
+   * all of the library's built-in overlay UI here — it has no option to
+   * disable this itself.
+   */
+  .pptx-preview-wrapper-next,
+  .pptx-preview-wrapper-pagination {
+    display: none !important;
+  }
+
+  .dbx-glow-cyan {
+    box-shadow: 0 0 0 1px rgba(45, 212, 240, 0.35), 0 0 22px rgba(45, 212, 240, 0.18);
+  }
+  .dbx-glow-violet {
+    box-shadow: 0 0 0 1px rgba(155, 107, 255, 0.35), 0 0 22px rgba(155, 107, 255, 0.18);
+  }
+
+  .dbx-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .dbx-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .dbx-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(148, 178, 255, 0.18);
+    border-radius: 8px;
+  }
+  .dbx-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 178, 255, 0.32);
+  }
+
+  .dbx-status-live {
+    animation: dbx-pulse-dot 2s ease-in-out infinite;
+  }
+
+  .dbx-input {
+    width: 100%;
+    border-radius: 0.5rem;
+    background: var(--dbx-void-2);
+    border: 1px solid var(--dbx-border);
+    font-size: 0.875rem;
+    padding: 0.55rem 0.75rem;
+    color: var(--dbx-text);
+    caret-color: var(--dbx-text);
+    transition: border-color 0.15s ease;
+  }
+  /* Belt-and-suspenders: force readable text even if a browser still
+     applies its own dark-mode color heuristics to this specific control. */
+  .dbx-input,
+  .dbx-input:-webkit-autofill {
+    -webkit-text-fill-color: var(--dbx-text);
+  }
+  .dbx-input:focus {
+    outline: none;
+    border-color: rgba(45, 212, 240, 0.6);
+    box-shadow: 0 0 0 1px rgba(45, 212, 240, 0.3);
+  }
+  .dbx-input::placeholder {
+    color: var(--dbx-text-faint);
+  }
+}
+
+@keyframes dbx-pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(52, 211, 153, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dbx-status-live { animation: none; }
+}

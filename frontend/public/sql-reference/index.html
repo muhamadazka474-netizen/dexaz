@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SQL Command Lab — referensi dan materi belajar SQL lengkap.">
+<title>SQL // COMMAND LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sql-command-lab.css">
+</head>
+<body>
+<div class="hud"><div class="hud-brand">SQL <span>//</span> COMMAND LAB</div><div class="hud-credit">REFERENCE SYSTEM</div><div class="hud-hint">SCROLL TO EXPLORE</div><div class="hud-index">01 / 12</div></div>
+<header class="topbar">
+<button class="menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
+<a class="brand" href="#top">SQL <span>//</span> COMMAND LAB</a>
+<div class="top-actions"><button class="mini-btn" id="themeInfo" aria-expanded="false">DIALECT INFO</button>
+<div class="dialect-panel" id="dialectPanel" aria-hidden="true"><b>SQL DIALECTS</b><p>MySQL · PostgreSQL · SQL Server · SQLite</p><small>Sintaks tertentu seperti LIMIT/TOP, fungsi tanggal, auto-increment, dan tipe data dapat berbeda antar-DBMS.</small></div></div>
+</header>
+<div class="layout" id="top">
+<aside class="sidebar" id="sidebar">
+<div class="side-head-row"><div class="side-head">SQL REFERENCE <b>COMMAND INDEX</b></div><button class="sidebar-hide" id="sidebarHide" aria-label="Sembunyikan navigasi" title="Sembunyikan navigasi">‹</button></div>
+<div class="search-wrap"><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search query..." autocomplete="off" aria-autocomplete="list" aria-controls="searchSuggestions"></label><div id="searchSuggestions" class="search-suggestions" role="listbox" aria-label="Search suggestions"></div></div>
+<nav>
+<a href="#fundamentals">01 · FUNDAMENTALS</a><a href="#sort">02 · ORDER / LIMIT</a><a href="#aggregate">03 · AGGREGATE</a><a href="#join">04 · JOIN</a><a href="#dml">05 · DML</a><a href="#ddl">06 · DDL</a><a href="#logic">07 · LOGIC</a><a href="#advanced">08 · SUBQUERY / CTE</a><a href="#window">09 · WINDOW</a><a href="#transaction">10 · TRANSACTION</a><a href="#security">11 · SECURITY</a><a href="#cheatsheet">12 · CHEAT SHEET</a>
+</nav><div class="side-foot">STATUS <span>ONLINE</span><br>MODE <span>LEARNING</span></div>
+</aside>
+<button class="sidebar-show" id="sidebarShow" aria-label="Tampilkan navigasi" title="Tampilkan navigasi">›</button>
+<main class="content">
+<section class="hero-section" id="hero"><div class="hero-copy"><p class="eyebrow">DATABASE QUERY REFERENCE</p><h1>SQL <span class="thin">COMMAND</span> LAB</h1><p class="hero-lede">Panduan SQL dari dasar sampai advanced: query, cara penggunaan, kegunaan, cara kerja, contoh, error umum, keamanan, dan optimasi.</p><div class="hero-stats"><div><b>12</b><span>MODULES</span></div><div><b>18+</b><span>QUERY TOPICS</span></div><div><b>4</b><span>DIALECTS</span></div></div></div><div class="hero-visual"><div class="visual-grid"></div><div class="terminal"><div class="term-top"><span>SQL_TERMINAL</span><span>READY</span></div><pre><code><span class="kw">SELECT</span> nama, total
+<span class="kw">FROM</span> transaksi
+<span class="kw">WHERE</span> total &gt; <span class="num">5000000</span>
+<span class="kw">ORDER BY</span> total <span class="kw">DESC</span>;</code></pre><div class="term-result"><span>QUERY STATUS</span><span>SUCCESS</span></div></div></div></section>
+<section class="doc-section module-fundamentals" id="fundamentals"><div class="section-head"><p class="eyebrow">MODULE 01</p><h2>SELECT <span class="slash">//</span> BASICS</h2><p>Memahami cara mengambil data, memilih kolom, dan membangun query SELECT dari dasar.</p></div><div class="query-grid">
+<article class="query-card" data-keywords="select from distinct column alias"><div class="qhead"><span>Q-01</span><b>SELECT / FROM</b><i>BEGINNER</i></div><pre><code><span class="kw">SELECT</span> nama, email
+<span class="kw">FROM</span> pelanggan;</code></pre><button class="copy">COPY</button><p><strong>SELECT</strong> menentukan kolom yang ingin ditampilkan; <strong>FROM</strong> menentukan sumber tabel.</p><div class="notes"><span>✓ Tidak mengubah data</span><span>✓ Dasar laporan</span><span>✓ Bisa memilih kolom tertentu</span></div><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Mengambil kolom tertentu dari satu tabel tanpa mengubah data.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Gunakan SELECT setelah menentukan tabel pada FROM. Pilih hanya kolom yang diperlukan; gunakan * hanya ketika memang membutuhkan semua kolom.</p><pre><code>SELECT nama, email FROM pelanggan;</code></pre></div>
+<div class="detail-block"><h3>CONTOH LEBIH LENGKAP</h3><p>Kolom yang dipilih tidak harus sesuai urutan pada tabel — tambahkan kolom lain sesuai kebutuhan laporan.</p><pre><code>SELECT id, nama, kota FROM pelanggan;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Untuk menampilkan data, membuat laporan, memeriksa isi tabel, dan menjadi dasar query JOIN, filter, agregasi, atau subquery.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>SELECT memilih data/ekspresi yang ditampilkan. FROM menentukan sumber data. Koma memisahkan beberapa kolom. ; mengakhiri statement.</p></div>
+<div class="detail-block caution"><h3>CATATAN & ERROR UMUM</h3><p>Hindari SELECT * pada laporan produksi karena mengambil kolom yang tidak diperlukan dan membuat hasil kurang stabil ketika struktur tabel berubah.</p></div>
+</div></article>
+<article class="query-card" data-keywords="distinct unique duplicate"><div class="qhead"><span>Q-02</span><b>SELECT DISTINCT</b><i>BEGINNER</i></div><pre><code><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> kota
+<span class="kw">FROM</span> pelanggan;</code></pre><button class="copy">COPY</button><p>Menghilangkan baris duplikat berdasarkan kolom/ekspresi yang dipilih.</p><div class="tip"><b>MANFAAT</b><br>Mencari daftar nilai unik, misalnya seluruh kota pelanggan.</div><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Menghasilkan nilai unik dan menghilangkan duplikasi dari hasil query.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Letakkan DISTINCT tepat setelah SELECT. Semua kolom yang dipilih dipertimbangkan bersama; DISTINCT nama, kota berarti kombinasi nama+kota harus unik.</p><pre><code>SELECT DISTINCT kota FROM pelanggan;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Membuat daftar referensi unik, memeriksa kategori yang tersedia, dan membersihkan duplikasi pada hasil laporan.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>DISTINCT bekerja pada hasil SELECT. Jika dua baris memiliki nilai berbeda pada salah satu kolom yang dipilih, keduanya tetap muncul.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>DISTINCT dapat membutuhkan sorting/hash sehingga pada data besar jangan digunakan tanpa alasan.</p></div>
+</div></article>
+<article class="query-card" data-keywords="where and or not in between like null filter"><div class="qhead"><span>Q-03</span><b>WHERE / AND / OR</b><i>BEGINNER</i></div><pre><code><span class="kw">SELECT</span> *
+<span class="kw">FROM</span> pelanggan
+<span class="kw">WHERE</span> kota = <span class="str">'Jakarta'</span>
+  <span class="kw">AND</span> status = <span class="str">'AKTIF'</span>;</code></pre><button class="copy">COPY</button><p><strong>WHERE</strong> menyaring baris. Gabungkan kondisi dengan AND/OR/NOT.</p><div class="error"><b>ERROR UMUM:</b> menggunakan <code>= NULL</code>. Gunakan <code>IS NULL</code>.</div><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Menyaring baris berdasarkan kondisi logika sebelum hasil dikembalikan.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Tulis kondisi setelah WHERE. Gunakan AND untuk semua kondisi wajib terpenuhi, OR untuk salah satu kondisi, dan tanda kurung ketika mencampur AND dan OR agar logika jelas.</p><pre><code>SELECT * FROM pelanggan WHERE kota = 'Jakarta' AND status = 'AKTIF';</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Mengambil data sesuai kriteria, pencarian pelanggan tertentu, validasi data, dan membatasi data yang diproses query lanjutan.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>WHERE memfilter baris. Operator perbandingan seperti =, >, < dan operator logika AND/OR/NOT menentukan kondisi.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Kesalahan umum adalah lupa WHERE pada UPDATE/DELETE atau menggunakan = NULL. NULL harus diuji dengan IS NULL/IS NOT NULL.</p></div>
+</div></article>
+<article class="query-card" data-keywords="like wildcard in between"><div class="qhead"><span>Q-04</span><b>LIKE / IN / BETWEEN</b><i>BEGINNER</i></div><pre><code><span class="kw">SELECT</span> * <span class="kw">FROM</span> produk
+<span class="kw">WHERE</span> nama <span class="kw">LIKE</span> <span class="str">'%Laptop%'</span>
+   <span class="kw">OR</span> kategori <span class="kw">IN</span> (<span class="str">'IT'</span>,<span class="str">'Office'</span>);</code></pre><button class="copy">COPY</button><p><strong>LIKE</strong> untuk pola teks, <strong>IN</strong> untuk beberapa nilai, <strong>BETWEEN</strong> untuk rentang.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Mencari data berdasarkan pola teks, daftar nilai, atau rentang.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>LIKE memakai % untuk nol atau banyak karakter dan _ untuk satu karakter. IN menerima daftar nilai. BETWEEN digunakan untuk rentang dan umumnya bersifat inklusif pada batas.</p><pre><code>SELECT * FROM produk WHERE nama LIKE '%Laptop%' OR kategori IN ('IT','Office');</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Pencarian nama, filter kategori, rentang harga/tanggal, dan penyederhanaan banyak kondisi OR.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>LIKE = pola teks; IN = salah satu dari daftar; BETWEEN = berada di antara dua nilai. Gunakan NOT untuk membalik kondisi.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>LIKE dengan wildcard di awal (%Laptop%) sering tidak dapat memanfaatkan index biasa secara optimal. Perhatikan juga aturan case sensitivity tiap DBMS.</p></div>
+</div></article>
+</div></section>
+
+<section class="doc-section" id="sort">
+<div class="section-head"><p class="eyebrow">MODULE 02</p><h2>ORDER <span class="slash">//</span> LIMIT</h2><p>Mengatur urutan hasil, memilih data teratas, dan melakukan pagination. Modul ini menjelaskan bagaimana SQL menentukan urutan hasil dan bagaimana membatasi baris secara aman.</p></div>
+<div class="query-grid module-detail-grid">
+<article class="query-card" id="q-order-by" data-keywords="order by asc desc sorting sort urut mengurutkan">
+<div class="qhead"><span>Q-03</span><b>ORDER BY</b><i>BEGINNER</i></div>
+<pre><code><span class="kw">SELECT</span> nama, total, tanggal
+<span class="kw">FROM</span> transaksi
+<span class="kw">ORDER BY</span> total <span class="kw">DESC</span>, nama <span class="kw">ASC</span>;</code></pre><button class="copy">COPY</button>
+<p>Mengurutkan baris hasil query berdasarkan satu atau beberapa kolom.</p>
+<div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p><strong>ORDER BY</strong> digunakan ketika hasil query perlu disajikan dalam urutan tertentu. Tanpa ORDER BY, database tidak menjamin urutan baris yang dikembalikan. Anda dapat mengurutkan angka dari terbesar ke terkecil, teks secara alfabetis, atau tanggal dari terbaru ke terlama.</p></div>
+<div class="detail-block"><h3>CARA MEMAKAI</h3><p>Tulis ORDER BY setelah SELECT/FROM/WHERE/GROUP BY/HAVING. Tambahkan nama kolom atau ekspresi yang ingin diurutkan. Gunakan <strong>ASC</strong> untuk naik dan <strong>DESC</strong> untuk turun. Jika ada lebih dari satu kolom, kolom kedua menjadi aturan tie-breaker.</p><pre><code><span class="kw">SELECT</span> nama, total
+<span class="kw">FROM</span> transaksi
+<span class="kw">WHERE</span> status = <span class="str">'LUNAS'</span>
+<span class="kw">ORDER BY</span> total <span class="kw">DESC</span>, nama <span class="kw">ASC</span>;</code></pre></div>
+<div class="detail-block"><h3>CONTOH PENGGUNAAN LENGKAP</h3><p>Misalnya ingin membuat laporan 10 transaksi terbesar. Gunakan ORDER BY untuk menentukan peringkat berdasarkan nilai transaksi, lalu LIMIT untuk mengambil 10 baris pertama.</p><pre><code><span class="kw">SELECT</span> id, nama, total, tanggal
+<span class="kw">FROM</span> transaksi
+<span class="kw">WHERE</span> tanggal &gt;= <span class="str">'2026-01-01'</span>
+<span class="kw">ORDER BY</span> total <span class="kw">DESC</span>, tanggal <span class="kw">DESC</span>;
+</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / MANFAAT</h3><p>Digunakan untuk laporan penjualan, daftar pelanggan, ranking nilai, transaksi terbaru, daftar prioritas, monitoring operasional, dan penyajian data yang mudah dibaca manusia.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>Database terlebih dahulu menghasilkan kumpulan baris dari FROM/JOIN dan menyaringnya melalui WHERE. Setelah agregasi dan HAVING bila ada, ORDER BY menentukan urutan akhir hasil. Karena proses sorting dapat mahal pada dataset besar, pertimbangkan index dan LIMIT bila hanya membutuhkan sebagian hasil.</p></div>
+<div class="detail-block"><h3>VARIASI PENTING</h3><pre><code><span class="comment">-- Terbaru ke terlama</span>
+<span class="kw">ORDER BY</span> tanggal <span class="kw">DESC</span>;
+
+<span class="comment">-- Alfabetis</span>
+<span class="kw">ORDER BY</span> nama <span class="kw">ASC</span>;
+
+<span class="comment">-- Berdasarkan hasil perhitungan</span>
+<span class="kw">ORDER BY</span> total * jumlah <span class="kw">DESC</span>;</code></pre></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Jangan mengandalkan urutan alami tabel. Perhatikan NULL, collation/case sensitivity, dan penggunaan ekspresi. Untuk hasil yang konsisten saat nilai sama, tambahkan tie-breaker seperti id.</p></div>
+</div></article>
+
+<article class="query-card" id="q-limit-offset" data-keywords="limit offset pagination top fetch order limit offset paging">
+<div class="qhead"><span>Q-04</span><b>LIMIT / OFFSET</b><i>INTERMEDIATE</i></div>
+<pre><code><span class="kw">SELECT</span> id, nama, total
+<span class="kw">FROM</span> transaksi
+<span class="kw">ORDER BY</span> tanggal <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">20</span> <span class="kw">OFFSET</span> <span class="num">40</span>;</code></pre><button class="copy">COPY</button>
+<p>Membatasi jumlah baris dan melewati sejumlah baris untuk kebutuhan pagination atau preview data.</p>
+<div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p><strong>LIMIT</strong> membatasi berapa banyak baris yang dikembalikan, sedangkan <strong>OFFSET</strong> menentukan berapa baris awal yang dilewati. Keduanya sering dipakai untuk halaman 1, 2, 3 pada tabel di aplikasi.</p></div>
+<div class="detail-block"><h3>CARA MEMAKAI</h3><p>Gunakan ORDER BY terlebih dahulu agar halaman memiliki urutan yang stabil. Misalnya 20 data per halaman: halaman 1 memakai OFFSET 0, halaman 2 OFFSET 20, halaman 3 OFFSET 40.</p><pre><code><span class="comment">-- Halaman 1</span>
+<span class="kw">ORDER BY</span> id
+<span class="kw">LIMIT</span> <span class="num">20</span> <span class="kw">OFFSET</span> <span class="num">0</span>;
+
+<span class="comment">-- Halaman 3</span>
+<span class="kw">ORDER BY</span> id
+<span class="kw">LIMIT</span> <span class="num">20</span> <span class="kw">OFFSET</span> <span class="num">40</span>;</code></pre></div>
+<div class="detail-block"><h3>CONTOH PENGGUNAAN LENGKAP</h3><p>Untuk halaman transaksi pada aplikasi, hitung offset dengan rumus <strong>(nomor_halaman - 1) × ukuran_halaman</strong>. Contoh halaman 4 dengan 25 baris per halaman berarti OFFSET 75.</p><pre><code><span class="kw">SELECT</span> id, nama, total, tanggal
+<span class="kw">FROM</span> transaksi
+<span class="kw">WHERE</span> status = <span class="str">'LUNAS'</span>
+<span class="kw">ORDER BY</span> tanggal <span class="kw">DESC</span>, id <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">25</span> <span class="kw">OFFSET</span> <span class="num">75</span>;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / MANFAAT</h3><p>Mengurangi data yang dikirim ke aplikasi, membuat pagination, preview data, dashboard, API listing, dan pengambilan data bertahap.</p></div>
+<div class="detail-block"><h3>PERHATIAN PADA DATA BESAR</h3><p>OFFSET yang sangat besar dapat menjadi mahal karena database tetap perlu menemukan dan melewati banyak baris. Untuk dataset besar atau pagination berfrekuensi tinggi, pertimbangkan <strong>keyset/cursor pagination</strong>.</p><pre><code><span class="comment">-- Contoh keyset pagination sederhana</span>
+<span class="kw">SELECT</span> id, nama, total
+<span class="kw">FROM</span> transaksi
+<span class="kw">WHERE</span> id &lt; <span class="num">1000</span>
+<span class="kw">ORDER BY</span> id <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">20</span>;</code></pre></div>
+<div class="detail-block"><h3>PERBEDAAN DIALECT</h3><p>MySQL, PostgreSQL, dan SQLite mendukung LIMIT. SQL Server biasanya menggunakan TOP atau OFFSET ... FETCH. Oracle memiliki pendekatan seperti FETCH FIRST dan OFFSET pada versi modern. Selalu cek dialect database target.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>LIMIT tanpa ORDER BY tidak cocok untuk pagination yang membutuhkan urutan konsisten. OFFSET juga dapat menghasilkan halaman yang berubah jika data disisipkan/dihapus selama pengguna melakukan paging.</p></div>
+</div></article>
+</div>
+<div class="dialect"><b>DIALECT NOTE</b> Sintaks pembatas hasil berbeda antar DBMS. Konsepnya sama: tentukan urutan terlebih dahulu, lalu ambil subset hasil dengan mekanisme yang tersedia pada DBMS.</div>
+</section>
+
+<section class="doc-section" id="aggregate"><div class="section-head"><p class="eyebrow">MODULE 03</p><h2>AGGREGATE <span class="slash">//</span> GROUP</h2><p>Merangkum banyak baris menjadi statistik atau kelompok data.</p></div><div class="query-grid four">
+<article class="query-card" data-keywords="count sum avg min max"><div class="qhead"><span>Q-05</span><b>COUNT / SUM / AVG</b><i>BEGINNER</i></div><pre><code><span class="kw">SELECT</span>
+  <span class="fn">COUNT</span>(*) AS jumlah,
+  <span class="fn">SUM</span>(total) AS omzet,
+  <span class="fn">AVG</span>(total) AS rata_rata
+<span class="kw">FROM</span> transaksi;</code></pre><button class="copy">COPY</button><p>Menghitung baris, menjumlahkan nilai, dan mencari rata-rata.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Merangkum banyak baris menjadi angka statistik.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Pilih fungsi sesuai kebutuhan: COUNT untuk jumlah, SUM untuk total, AVG untuk rata-rata, MIN untuk nilai terkecil, MAX untuk terbesar. Tambahkan GROUP BY jika statistik perlu dibuat per kelompok.</p><pre><code>SELECT COUNT(*) AS jumlah, SUM(total) AS omzet, AVG(total) AS rata_rata FROM transaksi;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Dashboard, laporan penjualan, rekonsiliasi, statistik operasional, dan analisis performa.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>COUNT(*) menghitung baris. COUNT(kolom) mengabaikan NULL pada kolom. SUM/AVG/MIN/MAX bekerja pada nilai yang sesuai tipe datanya.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Jangan menganggap COUNT(kolom) sama dengan COUNT(*). NULL dapat membuat hasil agregasi berbeda dari perkiraan.</p></div>
+</div></article>
+<article class="query-card" data-keywords="group by grouping"><div class="qhead"><span>Q-06</span><b>GROUP BY</b><i>BEGINNER</i></div><pre><code><span class="kw">SELECT</span> kota, <span class="fn">COUNT</span>(*) AS jumlah
+<span class="kw">FROM</span> pelanggan
+<span class="kw">GROUP BY</span> kota;</code></pre><button class="copy">COPY</button><p>Mengelompokkan baris berdasarkan satu atau lebih kolom sebelum agregasi.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Membagi baris menjadi kelompok lalu menjalankan agregasi pada setiap kelompok.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Tentukan kolom kategori pada GROUP BY dan agregat pada SELECT. Setiap kolom non-agregat di SELECT biasanya harus muncul di GROUP BY, tergantung aturan DBMS.</p><pre><code>SELECT kota, COUNT(*) AS jumlah FROM pelanggan GROUP BY kota;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Membuat laporan per kota, per produk, per bulan, per departemen, atau kategori lain.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>GROUP BY mengubah kumpulan baris menjadi satu hasil per kombinasi kelompok. Agregat dihitung di dalam masing-masing kelompok.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Kesalahan umum adalah memilih kolom biasa yang tidak ada di GROUP BY atau salah menempatkan kondisi agregat di WHERE.</p></div>
+</div></article>
+<article class="query-card" data-keywords="having aggregate filter"><div class="qhead"><span>Q-07</span><b>HAVING</b><i>INTERMEDIATE</i></div><pre><code><span class="kw">SELECT</span> kota, <span class="fn">SUM</span>(total) omzet
+<span class="kw">FROM</span> transaksi
+<span class="kw">GROUP BY</span> kota
+<span class="kw">HAVING</span> <span class="fn">SUM</span>(total) &gt; <span class="num">10000000</span>;</code></pre><button class="copy">COPY</button><p>Memfilter hasil <strong>setelah</strong> proses GROUP BY. Berbeda dengan WHERE yang memfilter baris sebelum agregasi.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Memfilter kelompok setelah proses GROUP BY dan agregasi selesai.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Gunakan WHERE untuk menyaring baris mentah sebelum grouping. Gunakan HAVING untuk menyaring hasil kelompok berdasarkan fungsi agregat.</p><pre><code>SELECT kota, SUM(total) AS omzet FROM transaksi GROUP BY kota HAVING SUM(total) > 10000000;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Mencari cabang dengan omzet tertentu, pelanggan dengan transaksi minimal, atau kategori yang memenuhi ambang statistik.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>Urutan konsep: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY. HAVING bekerja pada hasil kelompok.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Jangan memakai HAVING untuk filter baris sederhana jika WHERE sudah cukup; WHERE biasanya dapat mengurangi data lebih awal.</p></div>
+</div></article>
+</div></section>
+
+<section class="doc-section" id="join"><div class="section-head"><p class="eyebrow">MODULE 04</p><h2>JOIN <span class="slash">//</span> RELATIONSHIPS</h2><p>Menggabungkan data dari tabel yang memiliki hubungan, biasanya melalui primary key dan foreign key.</p></div><div class="join-map"><div>pelanggan<br><small>id pelanggan</small></div><span>1 ───────── N</span><div>transaksi<br><small>pelanggan_id</small></div></div><div class="query-grid">
+<article class="query-card" data-keywords="inner join"><div class="qhead"><span>Q-08</span><b>INNER JOIN</b><i>INTERMEDIATE</i></div><pre><code><span class="kw">SELECT</span> p.nama, t.total
+<span class="kw">FROM</span> pelanggan p
+<span class="kw">INNER JOIN</span> transaksi t
+  <span class="kw">ON</span> t.pelanggan_id = p.id;</code></pre><button class="copy">COPY</button><p>Hanya mengembalikan baris yang memiliki pasangan di kedua tabel.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Menggabungkan hanya baris yang memiliki pasangan pada kedua tabel.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Tentukan tabel utama, gunakan INNER JOIN, lalu tulis kondisi hubungan pada ON. Pastikan kolom join mewakili relasi yang benar, biasanya primary key ke foreign key.</p><pre><code>SELECT p.nama, t.total FROM pelanggan p INNER JOIN transaksi t ON t.pelanggan_id = p.id;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Mengambil data transaksi beserta nama pelanggan, data pegawai beserta departemen, atau informasi lintas tabel yang membutuhkan pasangan.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>INNER JOIN membuang baris yang tidak menemukan pasangan. Alias p dan t membuat query lebih ringkas.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>JOIN tanpa kondisi yang benar dapat menghasilkan terlalu banyak baris. Periksa kardinalitas relasi 1:1, 1:N, atau N:N.</p></div>
+</div></article>
+<article class="query-card" data-keywords="left join right join"><div class="qhead"><span>Q-09</span><b>LEFT JOIN</b><i>INTERMEDIATE</i></div><pre><code><span class="kw">SELECT</span> p.nama, t.total
+<span class="kw">FROM</span> pelanggan p
+<span class="kw">LEFT JOIN</span> transaksi t
+  <span class="kw">ON</span> t.pelanggan_id = p.id;</code></pre><button class="copy">COPY</button><p>Semua baris dari tabel kiri tetap muncul; data kanan menjadi NULL jika tidak ada pasangan.</p><div class="tip"><b>USE CASE</b><br>Mencari pelanggan yang belum pernah bertransaksi.</div><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Menggabungkan tabel sambil mempertahankan seluruh baris dari tabel kiri.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Letakkan tabel yang ingin dipertahankan di sebelah kiri LEFT JOIN. Kondisi hubungan berada di ON. Baris kanan yang tidak punya pasangan menghasilkan NULL.</p><pre><code>SELECT p.nama, t.total FROM pelanggan p LEFT JOIN transaksi t ON t.pelanggan_id = p.id;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Menemukan pelanggan tanpa transaksi, produk tanpa penjualan, atau master data yang belum memiliki detail.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>LEFT JOIN = semua baris kiri + pasangan kanan. Jika tidak ada pasangan, kolom kanan bernilai NULL.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Memindahkan filter kolom tabel kanan dari ON ke WHERE dapat mengubah efek LEFT JOIN menjadi seperti INNER JOIN.</p></div>
+</div></article>
+<article class="query-card" data-keywords="full cross self join"><div class="qhead"><span>Q-10</span><b>FULL / CROSS / SELF JOIN</b><i>ADVANCED</i></div><pre><code><span class="kw">SELECT</span> a.nama, b.nama
+<span class="kw">FROM</span> pegawai a
+<span class="kw">JOIN</span> pegawai b
+  <span class="kw">ON</span> a.manager_id = b.id;</code></pre><button class="copy">COPY</button><p><strong>SELF JOIN</strong> menghubungkan tabel dengan dirinya sendiri. FULL/CROSS memiliki dukungan berbeda antar DBMS.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Menggunakan variasi JOIN untuk kebutuhan relasi khusus: self join, full outer join, dan cross join.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Self JOIN memakai alias berbeda untuk tabel yang sama. FULL OUTER JOIN mempertahankan sisi kiri dan kanan. CROSS JOIN menghasilkan kombinasi setiap baris dengan setiap baris.</p><pre><code>SELECT a.nama AS pegawai, b.nama AS manager FROM pegawai a JOIN pegawai b ON a.manager_id = b.id;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Struktur hierarki, pasangan data, rekonsiliasi dua sumber, dan kombinasi seluruh kemungkinan.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>SELF JOIN perlu alias agar dua peran tabel dapat dibedakan. FULL/CROSS JOIN memiliki dukungan dan sintaks yang berbeda antar DBMS.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>CROSS JOIN dapat menghasilkan jumlah baris sangat besar. Selalu perkirakan kardinalitas sebelum menjalankannya pada tabel besar.</p></div>
+</div></article>
+</div></section>
+
+<section class="doc-section" id="dml"><div class="section-head"><p class="eyebrow">MODULE 05</p><h2>DML <span class="slash">//</span> CHANGE DATA</h2><p>Perintah untuk menambah, mengubah, dan menghapus data.</p></div><div class="query-grid">
+<article class="query-card" data-keywords="insert into values"><div class="qhead"><span>Q-11</span><b>INSERT</b><i>BEGINNER</i></div><pre><code><span class="kw">INSERT INTO</span> pelanggan (nama, kota)
+<span class="kw">VALUES</span> (<span class="str">'Andi'</span>, <span class="str">'Jakarta'</span>);</code></pre><button class="copy">COPY</button><p>Menambahkan baris baru. Sebutkan nama kolom secara eksplisit agar query lebih aman terhadap perubahan struktur tabel.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Menambahkan satu atau lebih baris baru ke tabel.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Sebutkan kolom target secara eksplisit, lalu berikan VALUES dengan jumlah dan urutan nilai yang sesuai. Untuk banyak baris, gunakan beberapa VALUES jika didukung.</p><pre><code>INSERT INTO pelanggan (nama, kota) VALUES ('Andi', 'Jakarta');</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Memasukkan pelanggan baru, transaksi baru, master data, atau hasil proses ETL.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>INSERT INTO menentukan tabel dan kolom tujuan. VALUES menyediakan data. Kolom yang tidak disebutkan memakai default atau NULL jika diperbolehkan.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Pastikan tipe data, constraint, primary key, foreign key, dan nilai NOT NULL terpenuhi. Hindari bergantung pada urutan kolom tabel.</p></div>
+</div></article>
+<article class="query-card" data-keywords="update set where"><div class="qhead"><span>Q-12</span><b>UPDATE</b><i>BEGINNER</i></div><pre><code><span class="kw">UPDATE</span> pelanggan
+<span class="kw">SET</span> kota = <span class="str">'Bandung'</span>
+<span class="kw">WHERE</span> id = <span class="num">10</span>;</code></pre><button class="copy">COPY</button><div class="error"><b>RISIKO TINGGI:</b> UPDATE tanpa WHERE dapat mengubah seluruh baris.</div><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Mengubah nilai pada baris yang sudah ada.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Tulis tabel setelah UPDATE, kolom baru setelah SET, dan gunakan WHERE untuk menentukan target. Sebelum menjalankan perubahan besar, uji WHERE dengan SELECT terlebih dahulu.</p><pre><code>UPDATE pelanggan SET kota = 'Bandung' WHERE id = 10;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Koreksi data, perubahan status, pembaruan alamat, dan proses sinkronisasi data.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>UPDATE mengubah baris yang memenuhi WHERE. Tanpa WHERE, semua baris dapat terkena perubahan.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Risiko terbesar adalah WHERE terlalu luas atau hilang. Untuk perubahan penting gunakan transaksi dan validasi jumlah baris.</p></div>
+</div></article>
+<article class="query-card" data-keywords="delete where truncate"><div class="qhead"><span>Q-13</span><b>DELETE</b><i>BEGINNER</i></div><pre><code><span class="kw">DELETE FROM</span> pelanggan
+<span class="kw">WHERE</span> status = <span class="str">'NONAKTIF'</span>;</code></pre><button class="copy">COPY</button><p>Menghapus baris berdasarkan kondisi. Untuk mengosongkan seluruh tabel, TRUNCATE biasanya lebih sesuai, tetapi perilakunya bergantung DBMS.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Menghapus baris berdasarkan kondisi tertentu.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Gunakan DELETE FROM nama_tabel lalu WHERE. Uji kondisi dengan SELECT terlebih dahulu. Jika ingin mengosongkan seluruh tabel, pertimbangkan TRUNCATE sesuai kebutuhan DBMS.</p><pre><code>DELETE FROM pelanggan WHERE status = 'NONAKTIF';</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Menghapus data yang memang tidak diperlukan, membersihkan data uji, atau menjalankan proses retensi data.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>DELETE menghapus baris yang cocok. TRUNCATE umumnya mengosongkan tabel secara lebih menyeluruh dan memiliki aturan transaksi/identity yang berbeda antar DBMS.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>DELETE tanpa WHERE dapat menghapus seluruh isi tabel. Jangan mengandalkan undo aplikasi; gunakan backup/transaksi bila tersedia.</p></div>
+</div></article>
+</div></section>
+
+<section class="doc-section" id="ddl">
+  <div class="section-head">
+    <p class="eyebrow">MODULE 06</p>
+    <h2>DDL <span class="slash">//</span> STRUCTURE</h2>
+    <p>DDL (Data Definition Language) digunakan untuk mendefinisikan, membuat, mengubah, dan menghapus struktur objek database seperti database, tabel, kolom, constraint, dan index.</p>
+  </div>
+
+  <div class="query-grid ddl-grid">
+    <article class="query-card reveal-in" style="--reveal-delay: 120ms;" data-keywords="create table ddl create tabel primary key foreign key not null unique default check">
+      <div class="qhead"><span>Q-18</span><b>CREATE TABLE</b><i>BEGINNER</i></div>
+      <pre><code><span class="kw">CREATE TABLE</span> pelanggan (
+  id <span class="type">INT</span> <span class="kw">PRIMARY KEY</span>,
+  nama <span class="type">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL</span>,
+  email <span class="type">VARCHAR</span>(<span class="num">150</span>) <span class="kw">UNIQUE</span>,
+  dibuat_pada <span class="type">DATE</span> <span class="kw">DEFAULT</span> CURRENT_DATE
+);</code></pre>
+      <button class="copy">COPY</button>
+      <p>Membuat tabel baru sekaligus menentukan nama kolom, tipe data, dan aturan (constraint) yang menjaga kualitas data.</p>
+      <div class="detail-panel">
+        <div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p><b>CREATE TABLE</b> membangun struktur penyimpanan data baru. Anda menentukan kolom apa yang tersedia, tipe data yang boleh masuk, serta aturan seperti PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT, dan CHECK.</p></div>
+        <div class="detail-block"><h3>CARA MEMAKAI</h3><p>Gunakan pola <b>CREATE TABLE nama_tabel (kolom tipe_data constraint, ...)</b>. Tentukan primary key untuk identitas baris, NOT NULL untuk field wajib, UNIQUE untuk nilai yang tidak boleh duplikat, dan DEFAULT untuk nilai otomatis.</p><pre><code><span class="kw">CREATE TABLE</span> produk (
+  id <span class="type">INT</span> <span class="kw">PRIMARY KEY</span>,
+  nama <span class="type">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL</span>,
+  harga <span class="type">DECIMAL</span>(<span class="num">12</span>,<span class="num">2</span>) <span class="kw">CHECK</span> (harga &gt;= <span class="num">0</span>),
+  stok <span class="type">INT</span> <span class="kw">DEFAULT</span> <span class="num">0</span>
+);</code></pre></div>
+        <div class="detail-block"><h3>CONTOH PENGGUNAAN LENGKAP</h3><p>Misalnya aplikasi penjualan membutuhkan tabel pelanggan. Buat struktur terlebih dahulu, lalu masukkan data dengan INSERT. Setelah tabel tersedia, query SELECT, UPDATE, DELETE, dan JOIN dapat digunakan terhadap tabel tersebut.</p><pre><code><span class="kw">CREATE TABLE</span> pelanggan (
+  id <span class="type">INT</span> <span class="kw">PRIMARY KEY</span>,
+  nama <span class="type">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL</span>,
+  email <span class="type">VARCHAR</span>(<span class="num">150</span>) <span class="kw">UNIQUE</span>
+);
+
+<span class="kw">INSERT INTO</span> pelanggan (id, nama, email)
+<span class="kw">VALUES</span> (<span class="num">1</span>, <span class="str">'Andi'</span>, <span class="str">'andi@example.com'</span>);
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> pelanggan;</code></pre></div>
+        <div class="detail-block"><h3>MANFAAT / USE CASE</h3><p>Membangun fondasi database untuk aplikasi, membuat struktur data konsisten, mencegah data invalid melalui constraint, dan mendokumentasikan bentuk data yang diharapkan.</p></div>
+        <div class="detail-block"><h3>CARA KERJA</h3><p>DBMS memvalidasi nama tabel dan kolom, membuat metadata struktur, lalu mendaftarkan constraint. Setelah berhasil, tabel menjadi objek database yang dapat diakses oleh query DML seperti INSERT, UPDATE, dan DELETE.</p></div>
+        <div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Hindari nama kolom yang membingungkan atau reserved keyword. Pilih tipe data sesuai kebutuhan. PRIMARY KEY harus unik dan tidak NULL. Struktur constraint yang salah dapat menyulitkan perubahan skema di kemudian hari.</p></div>
+        <div class="detail-block"><h3>PERBEDAAN DBMS</h3><p>Sintaks tipe data dan auto-increment berbeda antar DBMS. MySQL umum memakai AUTO_INCREMENT, PostgreSQL sering memakai GENERATED AS IDENTITY, SQL Server memakai IDENTITY, sedangkan SQLite memiliki aturan INTEGER PRIMARY KEY yang khas.</p></div>
+      </div>
+    </article>
+
+    <article class="query-card reveal-in" style="--reveal-delay: 180ms;" data-keywords="alter table ddl add column modify rename drop column constraint">
+      <div class="qhead"><span>Q-19</span><b>ALTER TABLE</b><i>INTERMEDIATE</i></div>
+      <pre><code><span class="kw">ALTER TABLE</span> pelanggan
+<span class="kw">ADD COLUMN</span> telepon <span class="type">VARCHAR</span>(<span class="num">30</span>);
+
+<span class="kw">ALTER TABLE</span> pelanggan
+<span class="kw">ADD COLUMN</span> aktif <span class="type">BOOLEAN</span> <span class="kw">DEFAULT</span> <span class="num">TRUE</span>;</code></pre>
+      <button class="copy">COPY</button>
+      <p>Mengubah struktur tabel yang sudah ada tanpa harus membuat ulang seluruh tabel dari awal.</p>
+      <div class="detail-panel">
+        <div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p><b>ALTER TABLE</b> digunakan ketika kebutuhan struktur berubah, misalnya menambah kolom, mengubah definisi kolom, mengganti nama kolom/tabel, atau menambah maupun menghapus constraint.</p></div>
+        <div class="detail-block"><h3>CARA MEMAKAI</h3><p>Pola paling umum adalah <b>ALTER TABLE nama_tabel ADD COLUMN nama_kolom tipe_data</b>. Operasi lain seperti RENAME, DROP COLUMN, atau perubahan tipe data memiliki sintaks yang berbeda antar DBMS.</p><pre><code><span class="kw">ALTER TABLE</span> pelanggan <span class="kw">ADD COLUMN</span> telepon <span class="type">VARCHAR</span>(<span class="num">30</span>);
+<span class="kw">ALTER TABLE</span> pelanggan <span class="kw">RENAME COLUMN</span> nama <span class="kw">TO</span> nama_lengkap;</code></pre></div>
+        <div class="detail-block"><h3>CONTOH PENGGUNAAN LENGKAP</h3><p>Bayangkan aplikasi awalnya hanya menyimpan nama dan email. Ketika fitur komunikasi ditambahkan, kolom telepon diperlukan. Tambahkan kolom, isi data yang tersedia, lalu validasi hasilnya.</p><pre><code><span class="kw">ALTER TABLE</span> pelanggan
+<span class="kw">ADD COLUMN</span> telepon <span class="type">VARCHAR</span>(<span class="num">30</span>);
+
+<span class="kw">UPDATE</span> pelanggan
+<span class="kw">SET</span> telepon = <span class="str">'08123456789'</span>
+<span class="kw">WHERE</span> id = <span class="num">1</span>;
+
+<span class="kw">SELECT</span> id, nama, telepon
+<span class="kw">FROM</span> pelanggan;</code></pre></div>
+        <div class="detail-block"><h3>MANFAAT / USE CASE</h3><p>Memungkinkan evolusi schema ketika aplikasi berkembang, menambahkan atribut baru, memperbaiki nama kolom, dan menyesuaikan database dengan kebutuhan bisnis tanpa membuat tabel baru dari nol.</p></div>
+        <div class="detail-block"><h3>CARA KERJA &amp; RISIKO</h3><p>DBMS mengubah metadata dan, tergantung jenis perubahan serta DBMS, dapat melakukan migrasi atau penulisan ulang data. Pada tabel besar, ALTER tertentu dapat membutuhkan waktu lama atau lock sehingga sebaiknya direncanakan saat beban rendah.</p></div>
+        <div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Jangan langsung menambahkan NOT NULL pada kolom baru jika baris lama belum memiliki nilai yang valid. Uji perubahan pada staging, siapkan backup, dan periksa dampaknya terhadap aplikasi, view, trigger, index, serta query yang sudah ada.</p></div>
+        <div class="detail-block"><h3>PERBEDAAN DBMS</h3><p>ADD COLUMN relatif umum, tetapi MODIFY/ALTER COLUMN, RENAME, dan perubahan tipe data berbeda antara MySQL, PostgreSQL, SQL Server, dan SQLite. Selalu cek sintaks DBMS yang digunakan sebelum deployment.</p></div>
+      </div>
+    </article>
+
+    <article class="query-card reveal-in" style="--reveal-delay: 240ms;" data-keywords="drop table truncate ddl destructive delete structure data cascade safety">
+      <div class="qhead"><span>Q-20</span><b>DROP / TRUNCATE TABLE</b><i>ADVANCED</i></div>
+      <pre><code><span class="kw">TRUNCATE TABLE</span> pelanggan;
+
+<span class="kw">DROP TABLE</span> pelanggan;</code></pre>
+      <button class="copy">COPY</button>
+      <p>TRUNCATE mengosongkan data tabel, sedangkan DROP menghapus objek tabel beserta strukturnya. Keduanya harus dipakai dengan sangat hati-hati.</p>
+      <div class="detail-panel">
+        <div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p><b>TRUNCATE TABLE</b> dipakai untuk mengosongkan seluruh baris tabel secara cepat. <b>DROP TABLE</b> menghapus tabel sebagai objek database sehingga struktur, data, dan objek terkait dapat ikut hilang sesuai aturan DBMS.</p></div>
+        <div class="detail-block"><h3>CARA MEMAKAI</h3><p>Gunakan TRUNCATE ketika struktur tabel masih dibutuhkan tetapi seluruh data perlu dikosongkan. Gunakan DROP hanya ketika tabel memang tidak lagi diperlukan.</p><pre><code><span class="comment">-- Kosongkan isi, pertahankan struktur</span>
+<span class="kw">TRUNCATE TABLE</span> pelanggan;
+
+<span class="comment">-- Hapus tabel dan strukturnya</span>
+<span class="kw">DROP TABLE</span> pelanggan;</code></pre></div>
+        <div class="detail-block"><h3>CONTOH PENGGUNAAN LENGKAP</h3><p>Dalam lingkungan development, tabel staging dapat dikosongkan sebelum proses import ulang. Jika sebuah tabel percobaan sudah tidak digunakan, tabel tersebut dapat dihapus setelah dependensi diperiksa.</p><pre><code><span class="comment">-- Development / staging: kosongkan data staging</span>
+<span class="kw">TRUNCATE TABLE</span> staging_transaksi;
+
+<span class="comment">-- Hapus tabel sementara setelah tidak diperlukan</span>
+<span class="kw">DROP TABLE</span> IF EXISTS temp_import;</code></pre></div>
+        <div class="detail-block"><h3>MANFAAT / USE CASE</h3><p>TRUNCATE berguna untuk reset tabel staging, testing, dan proses reload data. DROP berguna untuk membersihkan tabel sementara, melakukan perubahan desain besar, atau menghapus objek yang sudah obsolete.</p></div>
+        <div class="detail-block"><h3>PERBEDAAN TRUNCATE vs DELETE vs DROP</h3><p><b>DELETE</b> menghapus baris dan dapat memakai WHERE. <b>TRUNCATE</b> mengosongkan seluruh tabel tanpa WHERE dan biasanya lebih efisien untuk reset penuh. <b>DROP</b> menghapus tabelnya, bukan hanya datanya. Jangan menyamakan ketiganya.</p></div>
+        <div class="detail-block caution"><h3>⚠ CATATAN KESELAMATAN</h3><p>Periksa koneksi database, nama schema, backup, foreign key, dependency, permission, dan environment sebelum menjalankan operasi destruktif. Jangan menjalankan DROP/TRUNCATE di production tanpa prosedur perubahan yang jelas. Dukungan rollback dan perilaku transaksi dapat berbeda antar DBMS.</p></div>
+        <div class="detail-block"><h3>DBMS &amp; DEPENDENCY</h3><p>Perilaku TRUNCATE, cascade, identity reset, foreign key, trigger, dan transactional DDL berbeda antar DBMS. PostgreSQL misalnya menyediakan opsi seperti RESTART IDENTITY/CASCADE, sedangkan implementasi DBMS lain memiliki aturan tersendiri.</p></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="warning"><b>⚠ DDL &amp; SCHEMA SAFETY</b><br>Perubahan struktur database dapat memengaruhi aplikasi, query, view, index, foreign key, dan proses ETL. Uji perubahan pada environment non-production, pastikan backup dan migration plan tersedia, lalu verifikasi hasilnya setelah deployment.</div>
+</section>
+
+<section class="doc-section" id="logic"><div class="section-head"><p class="eyebrow">MODULE 07</p><h2>LOGIC <span class="slash">//</span> FUNCTIONS</h2><p>Logika kondisional, penanganan NULL, dan fungsi transformasi yang sering dipakai dalam query.</p></div><div class="query-grid">
+<article class="query-card" data-keywords="case when then else"><div class="qhead"><span>Q-14</span><b>CASE WHEN</b><i>INTERMEDIATE</i></div><pre><code><span class="kw">SELECT</span> nama,
+<span class="kw">CASE</span>
+  <span class="kw">WHEN</span> total &gt;= <span class="num">10000000</span> <span class="kw">THEN</span> <span class="str">'VIP'</span>
+  <span class="kw">WHEN</span> total &gt;= <span class="num">5000000</span> <span class="kw">THEN</span> <span class="str">'GOLD'</span>
+  <span class="kw">ELSE</span> <span class="str">'REGULAR'</span>
+<span class="kw">END</span> AS level_pelanggan
+<span class="kw">FROM</span> pelanggan;</code></pre><button class="copy">COPY</button><p>Membuat logika IF/ELSE di dalam SQL untuk klasifikasi atau transformasi.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Membuat logika kondisi IF/ELSE di dalam query dan menghasilkan nilai berdasarkan kondisi.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Gunakan CASE WHEN kondisi THEN hasil. Tambahkan WHEN sebanyak diperlukan dan ELSE sebagai nilai cadangan. Tutup dengan END dan beri alias.</p><pre><code>SELECT nama, CASE WHEN total >= 10000000 THEN 'VIP' WHEN total >= 5000000 THEN 'GOLD' ELSE 'REGULAR' END AS level_pelanggan FROM pelanggan;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Klasifikasi pelanggan, status transaksi, kategori umur, label laporan, dan transformasi nilai.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>CASE dievaluasi dari kondisi WHEN secara berurutan. Pada simple CASE, ekspresi dibandingkan dengan beberapa nilai; searched CASE memakai kondisi lengkap.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Perhatikan urutan kondisi. Kondisi yang lebih umum di atas dapat menangkap baris sebelum kondisi yang lebih spesifik.</p></div>
+</div></article>
+<article class="query-card" data-keywords="coalesce null ifnull is null"><div class="qhead"><span>Q-15</span><b>NULL HANDLING</b><i>INTERMEDIATE</i></div><pre><code><span class="kw">SELECT</span> nama,
+  <span class="fn">COALESCE</span>(telepon, <span class="str">'Tidak tersedia'</span>)
+<span class="kw">FROM</span> pelanggan
+<span class="kw">WHERE</span> email <span class="kw">IS NOT NULL</span>;</code></pre><button class="copy">COPY</button><p>COALESCE memilih nilai non-NULL pertama. Gunakan IS NULL / IS NOT NULL untuk pengujian NULL.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Menangani nilai NULL dan menyediakan nilai pengganti ketika data kosong.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Gunakan IS NULL/IS NOT NULL untuk pengujian. Gunakan COALESCE(a,b,c) untuk mengambil nilai non-NULL pertama.</p><pre><code>SELECT nama, COALESCE(telepon, 'Tidak tersedia') FROM pelanggan WHERE email IS NOT NULL;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Membuat laporan yang tidak menampilkan NULL mentah, fallback data, dan logika yang aman terhadap data kosong.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>NULL berarti nilai tidak diketahui/tidak tersedia, bukan nol dan bukan string kosong. Operasi dengan NULL mengikuti aturan three-valued logic.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Jangan gunakan = NULL atau <> NULL. Gunakan IS NULL/IS NOT NULL. Perhatikan perbedaan COALESCE dan fungsi pengganti khusus DBMS seperti IFNULL.</p></div>
+</div></article>
+<article class="query-card" data-keywords="string concat upper lower trim replace"><div class="qhead"><span>Q-16</span><b>STRING FUNCTIONS</b><i>INTERMEDIATE</i></div><pre><code><span class="kw">SELECT</span>
+  <span class="fn">UPPER</span>(nama),
+  <span class="fn">TRIM</span>(email)
+<span class="kw">FROM</span> pelanggan;</code></pre><button class="copy">COPY</button><p>Fungsi teks seperti UPPER, LOWER, TRIM, REPLACE, CONCAT tersedia dengan variasi sintaks antar DBMS.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Membersihkan, mengubah, dan menggabungkan teks dalam query.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Gunakan UPPER/LOWER untuk normalisasi huruf, TRIM untuk spasi, REPLACE untuk mengganti bagian teks, dan CONCAT untuk menggabungkan nilai. Cek fungsi yang tersedia pada DBMS.</p><pre><code>SELECT UPPER(nama) AS nama_besar, TRIM(email) AS email_bersih FROM pelanggan;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Pembersihan data, pencarian yang konsisten, pembentukan label, ekspor laporan, dan normalisasi data teks.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>Fungsi string menerima kolom atau ekspresi dan menghasilkan teks baru tanpa mengubah nilai asli kecuali dipakai dalam UPDATE.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Sintaks CONCAT, operator concatenation, dan perilaku NULL berbeda antar DBMS. Uji query pada database target.</p></div>
+</div></article>
+<article class="query-card" data-keywords="date current_date extract dateadd datediff"><div class="qhead"><span>Q-17</span><b>DATE / TIME</b><i>INTERMEDIATE</i></div><pre><code><span class="kw">SELECT</span> id, tanggal,
+  <span class="fn">EXTRACT</span>(YEAR <span class="kw">FROM</span> tanggal) AS tahun
+<span class="kw">FROM</span> transaksi;</code></pre><button class="copy">COPY</button><p>Untuk filter periode, grouping bulanan, umur data, dan perhitungan tanggal. Fungsi tanggal sangat bergantung dialect.</p><div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Mengolah tanggal dan waktu untuk filter periode, pengelompokan, dan analisis waktu.</p></div>
+<div class="detail-block"><h3>CARA MENGGUNAKAN</h3><p>Gunakan fungsi tanggal sesuai DBMS. EXTRACT mengambil bagian seperti YEAR/MONTH. Untuk filter periode, lebih aman gunakan batas tanggal yang jelas daripada mengubah kolom dengan fungsi jika ingin index tetap efektif.</p><pre><code>SELECT id, tanggal, EXTRACT(YEAR FROM tanggal) AS tahun FROM transaksi;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / USE CASE</h3><p>Laporan bulanan/tahunan, aging, SLA, tren waktu, periode pajak, dan analisis transaksi.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>Tanggal memiliki komponen tahun/bulan/hari dan waktu dapat memiliki jam/menit/detik. Fungsi seperti DATEADD, DATEDIFF, DATE_TRUNC, dan INTERVAL berbeda antar DBMS.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Perhatikan timezone, format tanggal, inclusive/exclusive boundary, dan fungsi yang membuat index sulit digunakan.</p></div>
+</div></article>
+</div></section>
+
+<section class="doc-section" id="advanced">
+<div class="section-head"><p class="eyebrow">MODULE 08</p><h2>SUBQUERY <span class="slash">//</span> CTE</h2><p>Membangun query bertingkat dan query modular. Subquery membantu membuat kondisi berdasarkan hasil query lain, sedangkan CTE memberi nama pada hasil sementara agar query kompleks lebih mudah dibaca, diuji, dan dikembangkan.</p></div>
+<div class="query-grid module-detail-grid">
+<article class="query-card" id="q-subquery" data-keywords="subquery nested query exists in correlated scalar subquery">
+<div class="qhead"><span>Q-19</span><b>SUBQUERY</b><i>INTERMEDIATE</i></div>
+<pre><code><span class="kw">SELECT</span> nama, total
+<span class="kw">FROM</span> transaksi
+<span class="kw">WHERE</span> total &gt; (
+  <span class="kw">SELECT</span> <span class="fn">AVG</span>(total)
+  <span class="kw">FROM</span> transaksi
+);</code></pre><button class="copy">COPY</button>
+<p>Menjalankan query di dalam query lain untuk menghasilkan nilai atau himpunan yang dipakai oleh query utama.</p>
+<div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Subquery digunakan ketika keputusan query utama bergantung pada hasil query lain. Contoh paling mudah adalah mencari transaksi yang nilainya lebih besar dari rata-rata seluruh transaksi.</p></div>
+<div class="detail-block"><h3>CARA MEMAKAI</h3><p>Tempatkan subquery di dalam tanda kurung. Subquery dapat menghasilkan satu nilai, banyak nilai, atau digunakan untuk menguji keberadaan baris melalui EXISTS.</p><pre><code><span class="comment">-- Scalar subquery: menghasilkan satu nilai</span>
+<span class="kw">SELECT</span> *
+<span class="kw">FROM</span> transaksi
+<span class="kw">WHERE</span> total &gt; (<span class="kw">SELECT</span> <span class="fn">AVG</span>(total) <span class="kw">FROM</span> transaksi);</code></pre></div>
+<div class="detail-block"><h3>CONTOH IN / EXISTS</h3><p>Gunakan IN ketika hasil subquery berupa daftar nilai. Gunakan EXISTS ketika fokusnya adalah apakah minimal satu baris yang cocok tersedia.</p><pre><code><span class="comment">-- IN</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> pelanggan
+<span class="kw">WHERE</span> id <span class="kw">IN</span> (
+  <span class="kw">SELECT</span> pelanggan_id <span class="kw">FROM</span> transaksi
+);
+
+<span class="comment">-- EXISTS</span>
+<span class="kw">SELECT</span> p.*
+<span class="kw">FROM</span> pelanggan p
+<span class="kw">WHERE EXISTS (
+  <span class="kw">SELECT</span> <span class="num">1</span> <span class="kw">FROM</span> transaksi t
+  <span class="kw">WHERE</span> t.pelanggan_id = p.id
+);</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / MANFAAT</h3><p>Membuat filter berdasarkan statistik, mencari data yang memiliki/tidak memiliki relasi, membandingkan nilai dengan agregat, dan menyusun logika yang tidak praktis jika ditulis sebagai satu kondisi sederhana.</p></div>
+<div class="detail-block"><h3>CARA KERJA</h3><p>Database mengevaluasi subquery sesuai konteksnya. Pada correlated subquery, subquery dapat dievaluasi berdasarkan setiap baris query luar. Optimizer dapat mengubah strategi eksekusi, sehingga jangan berasumsi bahwa bentuk SQL selalu sama dengan rencana eksekusi.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Scalar subquery harus menghasilkan satu nilai; jika menghasilkan banyak baris, operator yang digunakan harus sesuai. Perhatikan NULL saat menggunakan NOT IN karena three-valued logic dapat menghasilkan hasil yang mengejutkan.</p></div>
+</div></article>
+
+<article class="query-card" id="q-cte" data-keywords="cte with common table expression recursive with as modular query">
+<div class="qhead"><span>Q-20</span><b>CTE / WITH</b><i>INTERMEDIATE</i></div>
+<pre><code><span class="kw">WITH</span> omzet AS (
+  <span class="kw">SELECT</span> pelanggan_id, <span class="fn">SUM</span>(total) AS total_omzet
+  <span class="kw">FROM</span> transaksi
+  <span class="kw">GROUP BY</span> pelanggan_id
+)
+<span class="kw">SELECT</span> *
+<span class="kw">FROM</span> omzet
+<span class="kw">WHERE</span> total_omzet &gt; <span class="num">10000000</span>;</code></pre><button class="copy">COPY</button>
+<p>CTE memberi nama pada hasil query sementara sehingga langkah analisis dapat dipisahkan menjadi blok yang jelas.</p>
+<div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p><strong>WITH</strong> membuat Common Table Expression (CTE). CTE sangat berguna untuk memecah query panjang menjadi beberapa tahap bernama seperti omzet, pelanggan_aktif, atau ranking.</p></div>
+<div class="detail-block"><h3>CARA MEMAKAI</h3><p>Mulai dengan WITH, beri nama CTE, tulis query di dalam kurung, lalu gunakan nama CTE pada query utama. Anda dapat memiliki lebih dari satu CTE dan menghubungkannya satu sama lain.</p><pre><code><span class="kw">WITH</span> penjualan AS (...),
+pelanggan_aktif AS (...)
+<span class="kw">SELECT</span> ...
+<span class="kw">FROM</span> penjualan
+<span class="kw">JOIN</span> pelanggan_aktif ...;</code></pre></div>
+<div class="detail-block"><h3>CONTOH PENGGUNAAN LENGKAP</h3><p>Misalnya ingin mencari pelanggan dengan omzet di atas rata-rata omzet pelanggan. Buat ringkasan omzet per pelanggan terlebih dahulu, kemudian hitung rata-ratanya di tahap berikutnya.</p><pre><code><span class="kw">WITH</span> omzet AS (
+  <span class="kw">SELECT</span> pelanggan_id, <span class="fn">SUM</span>(total) AS omzet
+  <span class="kw">FROM</span> transaksi
+  <span class="kw">GROUP BY</span> pelanggan_id
+), rata AS (
+  <span class="kw">SELECT</span> <span class="fn">AVG</span>(omzet) AS avg_omzet
+  <span class="kw">FROM</span> omzet
+)
+<span class="kw">SELECT</span> o.pelanggan_id, o.omzet
+<span class="kw">FROM</span> omzet o
+<span class="kw">CROSS JOIN</span> rata r
+<span class="kw">WHERE</span> o.omzet &gt; r.avg_omzet;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / MANFAAT</h3><p>Meningkatkan keterbacaan query, memudahkan debugging, menghindari pengulangan subquery yang sama dalam kode, dan cocok untuk pipeline analisis bertahap. CTE recursive juga dapat digunakan untuk struktur hierarki pada DBMS yang mendukungnya.</p></div>
+<div class="detail-block"><h3>CTE VS SUBQUERY</h3><p>Subquery cocok untuk logika kecil dan lokal. CTE lebih nyaman ketika hasil antara perlu diberi nama, dipakai ulang dalam query, atau query memiliki beberapa tahap analisis. CTE bukan otomatis berarti lebih cepat; performa tetap bergantung pada optimizer dan DBMS.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Pastikan setiap CTE memiliki nama unik dan kolom yang jelas. Jangan menganggap CTE selalu menjadi tabel fisik atau selalu dimaterialisasi; perilakunya bergantung pada DBMS dan execution plan.</p></div>
+</div></article>
+</div>
+</section>
+
+<section class="doc-section" id="window">
+<div class="section-head"><p class="eyebrow">MODULE 09</p><h2>WINDOW <span class="slash">//</span> ANALYTICS</h2><p>Window function menghitung nilai berdasarkan kumpulan baris yang berhubungan dengan baris saat ini tanpa menggabungkan hasil menjadi satu baris seperti GROUP BY. Ini adalah fondasi ranking, running total, perbandingan periode, dan analisis tren.</p></div>
+<div class="query-grid module-detail-grid">
+<article class="query-card featured" id="q-window" data-keywords="window function row_number rank dense_rank over partition by lag lead running total analytics">
+<div class="qhead"><span>Q-21</span><b>ROW_NUMBER / RANK / OVER</b><i>ADVANCED</i></div>
+<pre><code><span class="kw">SELECT</span>
+  nama, kota, total,
+  <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (
+    <span class="kw">PARTITION BY</span> kota
+    <span class="kw">ORDER BY</span> total <span class="kw">DESC</span>
+  ) AS ranking
+<span class="kw">FROM</span> transaksi;</code></pre><button class="copy">COPY</button>
+<p>Membuat ranking dan analitik antarbaris sambil tetap mempertahankan detail setiap transaksi.</p>
+<div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Window function memungkinkan kita menghitung sesuatu berdasarkan baris lain yang masih berada dalam satu window, tanpa mengurangi jumlah baris hasil. Berbeda dengan GROUP BY yang merangkum beberapa baris menjadi satu baris per grup.</p></div>
+<div class="detail-block"><h3>KOMPONEN OVER</h3><p><strong>PARTITION BY</strong> membagi data menjadi kelompok analisis. <strong>ORDER BY</strong> menentukan urutan di dalam kelompok. Beberapa fungsi juga dapat memakai frame untuk menentukan rentang baris yang dihitung.</p><pre><code><span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (
+  <span class="kw">PARTITION BY</span> kota
+  <span class="kw">ORDER BY</span> total <span class="kw">DESC</span>
+)</code></pre></div>
+<div class="detail-block"><h3>CONTOH RANKING</h3><p>Untuk mencari 3 transaksi terbesar pada setiap kota, buat ranking per kota lalu filter ranking tersebut pada query luar.</p><pre><code><span class="kw">WITH</span> ranked AS (
+  <span class="kw">SELECT</span> nama, kota, total,
+    <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (
+      <span class="kw">PARTITION BY</span> kota
+      <span class="kw">ORDER BY</span> total <span class="kw">DESC</span>, id <span class="kw">DESC</span>
+    ) AS rn
+  <span class="kw">FROM</span> transaksi
+)
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> ranked
+<span class="kw">WHERE</span> rn &lt;= <span class="num">3</span>;</code></pre></div>
+<div class="detail-block"><h3>ROW_NUMBER VS RANK VS DENSE_RANK</h3><p><strong>ROW_NUMBER</strong> memberi nomor unik. <strong>RANK</strong> memberi peringkat yang sama untuk nilai sama dan dapat membuat celah peringkat. <strong>DENSE_RANK</strong> juga berbagi peringkat tetapi tidak membuat celah.</p><pre><code><span class="comment">-- Nilai: 100, 100, 90</span>
+<span class="comment">-- ROW_NUMBER : 1, 2, 3</span>
+<span class="comment">-- RANK       : 1, 1, 3</span>
+<span class="comment">-- DENSE_RANK : 1, 1, 2</span></code></pre></div>
+<div class="detail-block"><h3>LAG / LEAD &amp; RUNNING TOTAL</h3><p><strong>LAG</strong> membaca baris sebelumnya, <strong>LEAD</strong> membaca baris berikutnya. Window aggregate seperti SUM dapat dipakai untuk running total dengan frame yang sesuai.</p><pre><code><span class="kw">SELECT</span> tanggal, total,
+  <span class="fn">LAG</span>(total) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> tanggal) AS sebelumnya,
+  <span class="fn">SUM</span>(total) <span class="kw">OVER</span> (
+    <span class="kw">ORDER BY</span> tanggal
+    <span class="kw">ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</span>
+  ) AS running_total
+<span class="kw">FROM</span> transaksi;</code></pre></div>
+<div class="detail-block"><h3>KEGUNAAN / MANFAAT</h3><p>Ranking produk, top-N per kategori, running total, pertumbuhan periode, perbandingan transaksi sebelumnya, deteksi perubahan, analisis performa, dan laporan operasional yang tetap membutuhkan detail tiap baris.</p></div>
+<div class="detail-block"><h3>CARA KERJA &amp; KINERJA</h3><p>Database menentukan partition dan urutan window, lalu menghitung fungsi untuk setiap baris. Window yang memerlukan sorting dapat mahal pada dataset besar. Filter hasil window biasanya dilakukan pada query luar atau CTE karena alias window tidak selalu dapat digunakan langsung di WHERE pada query yang sama.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Pastikan ORDER BY memiliki tie-breaker jika hasil harus deterministik. Jangan tertukar antara GROUP BY dan window function. Perhatikan frame default dan perbedaan dukungan fungsi antar DBMS.</p></div>
+</div></article>
+</div>
+</section>
+
+<section class="doc-section" id="transaction">
+<div class="section-head"><p class="eyebrow">MODULE 10</p><h2>TRANSACTION <span class="slash">//</span> SAFETY</h2><p>Transaction mengelompokkan beberapa perubahan data menjadi satu unit kerja. Tujuannya adalah menjaga agar operasi yang saling bergantung berhasil seluruhnya atau dibatalkan seluruhnya sesuai kebutuhan.</p></div>
+<div class="transaction-flow"><span>BEGIN / START</span><b>→</b><span>INSERT / UPDATE / DELETE</span><b>→</b><span>VALIDATE</span><b>→</b><span>COMMIT</span><em>or</em><span>ROLLBACK</span></div>
+<div class="query-grid module-detail-grid">
+<article class="query-card" id="q-transaction" data-keywords="transaction begin commit rollback acid savepoint isolation atomicity consistency durability">
+<div class="qhead"><span>Q-22</span><b>BEGIN / COMMIT / ROLLBACK</b><i>ADVANCED</i></div>
+<pre><code><span class="kw">BEGIN</span>;
+
+<span class="kw">UPDATE</span> saldo
+<span class="kw">SET</span> jumlah = jumlah - <span class="num">500000</span>
+<span class="kw">WHERE</span> rekening_id = <span class="num">101</span>;
+
+<span class="kw">UPDATE</span> saldo
+<span class="kw">SET</span> jumlah = jumlah + <span class="num">500000</span>
+<span class="kw">WHERE</span> rekening_id = <span class="num">202</span>;
+
+<span class="kw">COMMIT</span>;</code></pre><button class="copy">COPY</button>
+<p>Menjamin dua perubahan yang saling berkaitan diproses sebagai satu unit transaksi.</p>
+<div class="detail-panel">
+<div class="detail-block"><h3>FUNGSI / TUJUAN</h3><p>Transaction menjaga konsistensi saat beberapa INSERT, UPDATE, atau DELETE harus dianggap sebagai satu pekerjaan. Jika semua langkah berhasil, COMMIT membuat perubahan permanen. Jika terjadi masalah sebelum commit, ROLLBACK dapat membatalkan perubahan yang masih berada dalam transaksi.</p></div>
+<div class="detail-block"><h3>CARA MEMAKAI</h3><p>Pola umum adalah mulai transaction, lakukan perubahan, validasi hasil, lalu COMMIT jika benar. Jika validasi gagal atau terjadi error yang harus dibatalkan, gunakan ROLLBACK. Detail autocommit dan cara memulai transaksi berbeda antar driver/DBMS.</p><pre><code><span class="kw">BEGIN</span>;
+<span class="kw">UPDATE</span> akun <span class="kw">SET</span> saldo = saldo - <span class="num">500000</span> <span class="kw">WHERE</span> id = <span class="num">101</span>;
+<span class="kw">UPDATE</span> akun <span class="kw">SET</span> saldo = saldo + <span class="num">500000</span> <span class="kw">WHERE</span> id = <span class="num">202</span>;
+<span class="kw">COMMIT</span>;</code></pre></div>
+<div class="detail-block"><h3>CONTOH PENGGUNAAN LENGKAP</h3><p>Pada transfer dana, pengurangan saldo rekening A dan penambahan saldo rekening B tidak boleh hanya salah satunya yang tersimpan. Transaction memungkinkan aplikasi membatalkan seluruh operasi jika salah satu langkah gagal.</p><pre><code><span class="kw">BEGIN</span>;
+
+<span class="kw">UPDATE</span> akun
+<span class="kw">SET</span> saldo = saldo - <span class="num">500000</span>
+<span class="kw">WHERE</span> id = <span class="num">101</span> <span class="kw">AND</span> saldo &gt;= <span class="num">500000</span>;
+
+<span class="comment">-- Aplikasi memeriksa row count / kondisi bisnis</span>
+
+<span class="kw">UPDATE</span> akun
+<span class="kw">SET</span> saldo = saldo + <span class="num">500000</span>
+<span class="kw">WHERE</span> id = <span class="num">202</span>;
+
+<span class="kw">COMMIT</span>;</code></pre></div>
+<div class="detail-block"><h3>ROLLBACK DAN SAVEPOINT</h3><p><strong>ROLLBACK</strong> membatalkan perubahan transaksi yang belum di-commit. <strong>SAVEPOINT</strong> dapat menjadi titik pemulihan di tengah transaksi pada DBMS yang mendukungnya.</p><pre><code><span class="kw">BEGIN</span>;
+<span class="kw">UPDATE</span> ...;
+<span class="kw">SAVEPOINT</span> tahap_1;
+<span class="kw">UPDATE</span> ...;
+<span class="kw">ROLLBACK TO</span> tahap_1;
+<span class="kw">COMMIT</span>;</code></pre></div>
+<div class="detail-block"><h3>ACID</h3><p><strong>Atomicity</strong>: unit kerja diperlakukan utuh. <strong>Consistency</strong>: aturan integritas tetap terpenuhi. <strong>Isolation</strong>: transaksi bersamaan diatur agar interaksinya sesuai isolation level. <strong>Durability</strong>: setelah commit, perubahan dirancang untuk bertahan sesuai jaminan sistem penyimpanan.</p></div>
+<div class="detail-block"><h3>KEGUNAAN / MANFAAT</h3><p>Pembayaran, transfer, pemrosesan invoice, stok, posting jurnal, batch update, sinkronisasi data, dan proses lain yang terdiri dari beberapa perubahan yang harus konsisten.</p></div>
+<div class="detail-block"><h3>ISOLATION LEVEL</h3><p>Isolation level mengatur bagaimana transaksi melihat perubahan transaksi lain. Konsep seperti READ COMMITTED, REPEATABLE READ, dan SERIALIZABLE memiliki trade-off antara konsistensi dan concurrency. Dukungan dan perilaku detail berbeda antar DBMS.</p></div>
+<div class="detail-block caution"><h3>CATATAN &amp; ERROR UMUM</h3><p>Jangan membiarkan transaction terbuka terlalu lama karena dapat menahan lock atau sumber daya. Tangani error di aplikasi dan pastikan koneksi tidak meninggalkan transaction yang tidak jelas. Jangan menganggap COMMIT/ROLLBACK identik pada semua engine atau driver.</p></div>
+</div></article>
+</div>
+</section>
+
+<section class="doc-section" id="security"><div class="section-head"><p class="eyebrow">MODULE 11</p><h2>SECURITY <span class="slash">//</span> OPTIMIZATION</h2><p>Query yang benar belum tentu aman atau cepat. Perhatikan parameterisasi, index, execution plan, dan privilege.</p></div><div class="security-grid"><div><h3>SQL INJECTION</h3><p>Jangan menyusun SQL dari input pengguna dengan string concatenation.</p><pre><code><span class="comment">-- BAD</span>
+<span class="str">"SELECT ... WHERE username = '"</span> + input + <span class="str">"'"</span>
+
+<span class="comment">-- GOOD: gunakan parameterized query</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> username = ?;</code></pre></div><div><h3>EXPLAIN</h3><pre><code><span class="kw">EXPLAIN</span>
+<span class="kw">SELECT</span> *
+<span class="kw">FROM</span> transaksi
+<span class="kw">WHERE</span> pelanggan_id = <span class="num">10</span>;</code></pre><p>Gunakan execution plan untuk melihat scan, join strategy, estimasi biaya, dan penggunaan index sesuai DBMS.</p></div><div><h3>INDEX</h3><pre><code><span class="kw">CREATE INDEX</span> idx_transaksi_pelanggan
+<span class="kw">ON</span> transaksi(pelanggan_id);</code></pre><p>Index dapat mempercepat pencarian tetapi menambah storage dan overhead saat INSERT/UPDATE/DELETE.</p></div></div></section>
+
+<section class="doc-section" id="cheatsheet"><div class="section-head"><p class="eyebrow">MODULE 12</p><h2>SQL <span class="slash">//</span> CHEAT SHEET</h2><p>Urutan mental saat membaca query dan daftar command yang paling sering dipakai.</p></div><div class="order-box"><span>FROM / JOIN</span><b>→</b><span>WHERE</span><b>→</b><span>GROUP BY</span><b>→</b><span>HAVING</span><b>→</b><span>SELECT</span><b>→</b><span>ORDER BY</span><b>→</b><span>LIMIT</span></div><div class="cheat-grid"><div><b>QUERY</b><span>SELECT · DISTINCT · WHERE · JOIN · GROUP BY · HAVING</span></div><div><b>DML</b><span>INSERT · UPDATE · DELETE</span></div><div><b>DDL</b><span>CREATE · ALTER · DROP · TRUNCATE</span></div><div><b>LOGIC</b><span>CASE · COALESCE · NULLIF</span></div><div><b>ANALYTICS</b><span>ROW_NUMBER · RANK · LAG · LEAD · OVER</span></div><div><b>TRANSACTION</b><span>BEGIN · COMMIT · ROLLBACK · SAVEPOINT</span></div><div><b>SECURITY</b><span>GRANT · REVOKE · PARAMETERS · LEAST PRIVILEGE</span></div><div><b>PERFORMANCE</b><span>INDEX · EXPLAIN · ANALYZE · QUERY PLAN</span></div></div></section>
+<footer><span>SQL // COMMAND LAB</span><span>STATIC LEARNING REFERENCE · 2026</span></footer>
+
+</main></div>
+<div id="toast">COPIED TO CLIPBOARD</div>
+<script src="sql-command-lab.js"></script>
+</body></html>
