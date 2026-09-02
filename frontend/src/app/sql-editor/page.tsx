@@ -187,7 +187,7 @@ export default function SqlEditorPage() {
   // wrong one doesn't error, but it mis-formats engine-specific syntax
   // (e.g. MySQL backtick identifiers, SQLite pragmas). Map our db_type to
   // the matching sql-formatter language.
-  function formatterLanguage(dbType: string | undefined): Parameters<typeof formatSql>[1]["language"] {
+  function formatterLanguage(dbType: string | undefined): NonNullable<Parameters<typeof formatSql>[1]>["language"] {
     if (dbType === "mysql") return "mysql";
     if (dbType === "mariadb") return "mariadb";
     if (dbType === "sqlite") return "sqlite";
